@@ -1,0 +1,39 @@
+.form_style {
+  margin-top: 100px;
+  width: 35%;
+  margin: 20vh 0;
+}
+
+.form_style2 {
+  margin-top: 100px;
+  width: 50%;
+  margin: 20vh 0;
+}
+
+.my-option-style {
+  width: inherit;
+  height: 38px;
+  border-radius: 5px;
+  color: rgb(126 120 120);
+  border: 1px solid rgb(189 188 188);
+  margin-bottom: 1.5rem;
+  padding: 0px 8px;
+}
+
+/* contact form */
+.card-margin {
+  margin-top: 100px;
+}
+
+/* profile */
+.profile_style {
+  height: auto
+}
+
+@media screen and (max-width: 576px) {
+
+  .form_style2,
+  .form_style {
+    width: 100% !important;
+  }
+}

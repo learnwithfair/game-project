@@ -1,0 +1,72 @@
+[
+  {
+    "id": "a-101",
+    "name": "McLaren GR",
+    "details": "Description Here..",
+    "image": "default-image.png",
+    "percent": 0
+  },
+  {
+    "id": "a-102",
+    "name": "Mercedes-Benz Gwagon",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 2
+  },
+  {
+    "id": "a-103",
+    "name": "Audi RS 5 Coupe",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 3
+  },
+  {
+    "id": "a-104",
+    "name": "Hublot Big Bang Integral Blue watch",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 5
+  },
+  {
+    "id": "a-105",
+    "name": "10 Ounces of Gold",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 5
+  },
+  {
+    "id": "a-106",
+    "name": "Apple iPhone 15 Pro Max",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 7
+  },
+  {
+    "id": "a-107",
+    "name": "Cash Bonus 500",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 8
+  },
+  {
+    "id": "a-108",
+    "name": "Cash Bonus 100",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 15
+  },
+  {
+    "id": "a-109",
+    "name": "Cash Bonus 50",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 25
+  },
+  {
+    "id": "a-110",
+    "name": "Cash Bonus 30",
+    "details": "Description  Here..",
+    "image": "default-image.png",
+    "percent": 30
+  }
+]
