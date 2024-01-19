@@ -63,6 +63,18 @@ class linkManagement {
         }
     }
 
+    // // Display Customer Info by ID
+    // public function displayCustomerById( $id ) {
+    //     $display_customer_query = "SELECT * FROM customer_info WHERE id=$id";
+    //     $display_customer = mysqli_query( $this->conn, $display_customer_query );
+    //     $display_customer_data = mysqli_fetch_array( $display_customer );
+    //     if ( isset( $display_customer_data ) ) {
+    //         return $display_customer_data;
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
     // Add Customer Info
     public function addCustomer( $data ) {
         $customer_id = $data['customer-id'];
@@ -189,6 +201,17 @@ class linkManagement {
             return $display_WheelHems;
         }
     }
+    // Display  Wheel Hems Info Info by ID
+    public function displayWheelHemsrById( $id ) {
+        $display_wheel_hems_query = "SELECT * FROM wheel_hems_info WHERE id=$id";
+        $display_wheel_hems = mysqli_query( $this->conn, $display_wheel_hems_query );
+        $display_wheel_hems_data = mysqli_fetch_array( $display_wheel_hems );
+        if ( isset( $display_wheel_hems_data ) ) {
+            return $display_wheel_hems_data;
+        } else {
+            return null;
+        }
+    }
 ###########################################################################################
 //                                      /WHEEL HEMS
 ###########################################################################################
@@ -196,10 +219,54 @@ class linkManagement {
 ###########################################################################################
 //                                      GENERATE RESULT
 ###########################################################################################
+    function getRandomItem( array $items ) {
+        // Calculate total probability
+        $totalProbability = array_sum( $items );
 
-    public function generateResult() {
-        $value = rand( 0, 100 );
-        $weelHems = $this->displayWheelHems();
+        // Generate a random number between 0 and the total probability
+        $randomNumber = mt_rand( 0, $totalProbability );
+
+        // Iterate through the items and find the selected item
+        $currentProbability = 0;
+        foreach ( $items as $item => $probability ) {
+            $currentProbability += $probability;
+            if ( $randomNumber <= $currentProbability ) {
+                return $item;
+            }
+        }
+
+        // In case of an issue, return null
+        return null;
+    }
+// Update customer Result by ID
+    public function updateCustomerResultbyId( $id, $wheelHemsId ) {
+        $update_query = "UPDATE customer_info SET wheel_hems_id=$wheelHemsId WHERE id=$id";
+        $return_update_mgs = mysqli_query( $this->conn, $update_query );
+        if ( $return_update_mgs ) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+// echo "Selected Item: $selectedItem\n";
+
+    public function generateResult( $id ) {
+
+        $wheelHems_info = $this->displayWheelHems();
+        $items = array();
+        while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
+            $items[$info['id']] = $info['percent'];
+        }
+        $weelHemsId = $this->getRandomItem( $items );
+        $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsId );
+        if ( $updateResult ) {
+
+            return $this->displayWheelHemsrById( $weelHemsId );
+        } else {
+            return null;
+        }
 
     }
 
