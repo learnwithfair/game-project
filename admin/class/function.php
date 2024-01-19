@@ -201,9 +201,9 @@ class linkManagement {
             return $display_WheelHems;
         }
     }
-    // Display  Wheel Hems Info Info by ID
-    public function displayWheelHemsrById( $id ) {
-        $display_wheel_hems_query = "SELECT * FROM wheel_hems_info WHERE id=$id";
+    // Display  Wheel Hems Info Info by Name
+    public function displayWheelHemsrByName( $name ) {
+        $display_wheel_hems_query = "SELECT * FROM wheel_hems_info WHERE name='$name'";
         $display_wheel_hems = mysqli_query( $this->conn, $display_wheel_hems_query );
         $display_wheel_hems_data = mysqli_fetch_array( $display_wheel_hems );
         if ( isset( $display_wheel_hems_data ) ) {
@@ -239,8 +239,8 @@ class linkManagement {
         return null;
     }
 // Update customer Result by ID
-    public function updateCustomerResultbyId( $id, $wheelHemsId ) {
-        $update_query = "UPDATE customer_info SET wheel_hems_id=$wheelHemsId WHERE id=$id";
+    public function updateCustomerResultbyId( $id, $wheelHemsName ) {
+        $update_query = "UPDATE customer_info SET wheel_hems_name='$wheelHemsName' WHERE id=$id";
         $return_update_mgs = mysqli_query( $this->conn, $update_query );
         if ( $return_update_mgs ) {
             return true;
@@ -257,13 +257,12 @@ class linkManagement {
         $wheelHems_info = $this->displayWheelHems();
         $items = array();
         while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
-            $items[$info['id']] = $info['percent'];
+            $items[$info['name']] = $info['percent'];
         }
-        $weelHemsId = $this->getRandomItem( $items );
-        $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsId );
+        $weelHemsName = $this->getRandomItem( $items );
+        $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsName );
         if ( $updateResult ) {
-
-            return $this->displayWheelHemsrById( $weelHemsId );
+            return $this->displayWheelHemsrByName( $weelHemsName );
         } else {
             return null;
         }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2024 at 07:55 AM
+-- Generation Time: Jan 19, 2024 at 10:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,17 +53,17 @@ CREATE TABLE `customer_info` (
   `id` int(255) NOT NULL,
   `customer_id` varchar(50) NOT NULL,
   `customer_name` varchar(70) NOT NULL,
-  `wheel_hems_id` int(255) DEFAULT 0
+  `wheel_hems_name` varchar(50) DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customer_info`
 --
 
-INSERT INTO `customer_info` (`id`, `customer_id`, `customer_name`, `wheel_hems_id`) VALUES
-(2, 'B-3445', 'Rahatul rabbi', 9),
-(5, 'B-3448', 'Anisul Islam', 10),
-(8, 'A-3448', 'Sahanur Rahman', 0);
+INSERT INTO `customer_info` (`id`, `customer_id`, `customer_name`, `wheel_hems_name`) VALUES
+(2, 'B-3445', 'Rahatul rabbi', 'Hublot Big Bang Integral Blue watch'),
+(5, 'B-3448', 'Anisul Islam', 'Cash Bonus 50'),
+(9, 'A-34482', 'Nayeem Islam', 'No');
 
 -- --------------------------------------------------------
 
@@ -131,7 +131,7 @@ ALTER TABLE `admin_info`
 -- AUTO_INCREMENT for table `customer_info`
 --
 ALTER TABLE `customer_info`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `wheel_hems_info`
