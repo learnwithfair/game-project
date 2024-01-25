@@ -48,7 +48,7 @@
             <div class="dashboard-icon">
                 <img class="" src="./assets/img/team-icon.png" alt="">
                 <br><br>
-                <h5 class="">Total Team</h5>
+                <h5 class="">Total Items</h5>
                 <h6><span class="counter"><?php echo "10"; ?></span></h6>
             </div>
         </div>
@@ -58,7 +58,7 @@
             <div class="dashboard-icon">
                 <img class="" src="./assets/img/message-icon.jfif" alt="">
                 <br><br>
-                <h5 class="">Total Messages</h5>
+                <h5 class="">Total Spins</h5>
                 <h6><span class="counter"><?php echo "10"; ?></span></h6>
             </div>
         </div>

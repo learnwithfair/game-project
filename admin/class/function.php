@@ -6,7 +6,7 @@ class linkManagement {
         $bdhost = "localhost";
         $dbuser = "root";
         $dbpassword = "";
-        $dbname = "link_management";
+        $dbname = "rabbi_fortunewheeladmin";
         $this->conn = mysqli_connect( $bdhost, $dbuser, $dbpassword, $dbname );
 
         if ( !( $this->conn ) ) {

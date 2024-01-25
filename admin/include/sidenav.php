@@ -9,7 +9,7 @@
                 </a>
                 <a class="nav-link" href="wheel_hems">
                     <div class="sb-nav-link-icon"><i class='far fa-sun'></i></div>
-                    Wheel Hems
+                    Wheel Items
                 </a>
                 <a class="nav-link" href="links">
                     <div class="sb-nav-link-icon"><i class='fa fa-link'></i></div>

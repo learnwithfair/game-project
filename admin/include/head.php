@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Link Management</title>
+    <title>Fortune Wheel Admin</title>
     <link rel="shortcut icon" href="./assets/img/team-icon.png" type="image/x-icon">
     <!-- <link rel="stylesheet" href="./CSS/pagi_style.css"> -->
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"

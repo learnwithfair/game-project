@@ -189,7 +189,7 @@ $(document).ready(function() {
         }).get();
 
 
-        navigator.clipboard.writeText(data[4]);
+        navigator.clipboard.writeText('http://localhost/rabbi/FortuneWheelAdmin/game.php?token='+data[4]);
 
         // For copied Toast
         const Toast = Swal.mixin({

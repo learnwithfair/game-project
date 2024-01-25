@@ -13,7 +13,7 @@ $wheelHems_info = $obj->displayWheelHems();
 <br>
 <div class="card mb-4">
     <div class="card-header">
-        <h4> <i class="far fa-sun mr-1"></i> Wheel Hems</h4>
+        <h4> <i class="far fa-sun mr-1"></i> Wheel Items</h4>
         <!-- <h6 style="color:red;"> -->
         <?php
 if ( isset( $active_mgs ) ) {
