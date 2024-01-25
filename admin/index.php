@@ -67,10 +67,6 @@ if ( isset( $_POST['login'] ) ) {
                                         </div>
                                     </form>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <div class="small"><a href="mailto:https://'adminsample@gmail.com">Need
-                                            an account? Contact with Admin Officer!</a></div>
-                                </div>
                             </div>
                         </div>
                     </div>
