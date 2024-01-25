@@ -35,6 +35,13 @@
                         <div class="invalid-feedback">Please provide customer name</div>
                     </div>
                 </div>
+                <div class="form-outline mb-4">
+                    <input type="email" class="form-control" id="u-customer-email" name="u-customer-email"
+                        placeholder="Enter Customer Email" required />
+                    <label for="customer-email" class="form-label">Customer Email</label>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please provide customer email</div>
+                </div>
                 <br>
                 <div>
                     <button type="button" class="btn btn-dark cancel btn-sm" data-dismiss="modal"
@@ -61,6 +68,7 @@ $(document).ready(function() {
         $('#update-id').val(data[0]);
         $('#u-customer-id').val(data[2]);
         $('#u-customer-name').val(data[3]);
+        $('#u-customer-email').val(data[5]);
 
     });
 });

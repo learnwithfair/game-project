@@ -91,6 +91,8 @@ if ( isset( $add_mgs ) ) {
                         <th scope="col">S/N</th>
                         <th scope="col">Customer ID</th>
                         <th scope="col">Customer Name</th>
+                        <th scope="col">Customer Email</th>
+                        <th scope="col" style="display:none;"></th>
                         <th scope="col" style="display:none;"></th>
                         <th scope="col">Link</th>
                         <th scope="col">Result</th>
@@ -103,13 +105,17 @@ if ( isset( $add_mgs ) ) {
                         <th scope="col">S/N</th>
                         <th scope="col">Customer ID</th>
                         <th scope="col">Customer Name</th>
+                        <th scope="col">Customer Email</th>
+                        <th scope="col" style="display:none;"></th>
                         <th scope="col" style="display:none;"></th>
                         <th scope="col">Link</th>
                         <th scope="col">Result</th>
                         <th scope="col">Action</th>
                 </tfoot>
                 <tbody>
-                    <?php $count = 1;while ( $info = mysqli_fetch_assoc( $customer_info ) ) {?>
+                    <?php $count = 1;while ( $info = mysqli_fetch_assoc( $customer_info ) ) {
+    $whileId = $info["wheel_hems_id"];
+    ?>
 
                     <tr>
                         <td style="display:none;">
@@ -118,17 +124,20 @@ if ( isset( $add_mgs ) ) {
                         <td><?php echo $count++; ?></td>
                         <td><?php echo $info['customer_id']; ?></td>
                         <td class="text-left"><?php echo $info['customer_name']; ?></td>
-                        <?php
-$token = $obj->Sign( array( 'id' => $info['id'], 'customer_id' => $info['customer_id'], 'customer_name' => $info['customer_name'] ) );
-    $token_parts = explode( '.', $token );
+                        <td><a href="mailto:" .<?php echo $info['customer_email']; ?>>Send Email</a>
+                        </td>
+                        <td style="display:none;"><?php echo $info['customer_email']; ?>
+                            <?php
+$token = $obj->Sign( array( 'customer_id' => $info['id'], 'wheel_hems_id' => $whileId ) );
     ?>
                         <td style="display:none;">
-                            <?php echo $token; ?>
+                            <?php
+echo substr( $token, 17 ); ?>
                         </td>
                         <td class="text-left">
                             <?php
 
-    echo ( str_split( $token_parts[2], 20 )[0] ) . "...";
+    echo ( str_split( $token, 15 )[2] . "..." );
 
     ?>
 
@@ -137,7 +146,7 @@ $token = $obj->Sign( array( 'id' => $info['id'], 'customer_id' => $info['custome
 
                         <td>
                             <?php
-$whileId = $info["wheel_hems_id"];
+
     ( $whileId == 0 ) ? printf( "No" ) : printf( $obj->displayWheelHemsrById( $info["wheel_hems_id"] )['name'] );
     ?>
                         </td>
@@ -160,7 +169,7 @@ $whileId = $info["wheel_hems_id"];
         </div>
     </div>
 </div>
-<!-- For DataTabe  -->
+<!-- For DataTable  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -171,7 +180,7 @@ $(document).ready(function() {
     });
 });
 </script>
-<!-- For DataTabe  -->
+<!-- For DataTable  -->
 
 <!-- For Copy  -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -188,8 +197,10 @@ $(document).ready(function() {
             return $(this).text();
         }).get();
 
-
-        navigator.clipboard.writeText('http://localhost/rabbi/FortuneWheelAdmin/game.php?token='+data[4]);
+        // http: //localhost/rabbi/FortuneWheelAdmin/game.php
+        navigator.clipboard.writeText('http://localhost/link-management/generate_result.php?token=' +
+            data[
+                6]);
 
         // For copied Toast
         const Toast = Swal.mixin({

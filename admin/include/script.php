@@ -20,38 +20,37 @@
 <script>
 // For Delete Item
 $(document).ready(function() {
-
+    // Show Modal
     $('.deletebtn').on('click', function() {
-
         $('#deletemodal').modal('show');
-
         $tr = $(this).closest('tr');
-
         var data = $tr.children("td").map(function() {
             return $(this).text();
         }).get();
-
         $('#delete_id').val(data[0]);
+    });
 
+    // Hide Modal
+    $('.cancel').on('click', function() {
+        $('#deletemodal').modal('hide');
     });
 });
 
 // Active Status set
-
 $(document).ready(function() {
-
+    // Show Modal
     $('.activebtn').on('click', function() {
-
         $('#activemodal').modal('show');
-
         $tr = $(this).closest('tr');
-
         var data = $tr.children("td").map(function() {
             return $(this).text();
         }).get();
-
         $('#active_id').val(data[0]);
+    });
 
+    // Hide Modal
+    $('.cancel').on('click', function() {
+        $('#activemodal').modal('hide');
     });
 });
 </script>

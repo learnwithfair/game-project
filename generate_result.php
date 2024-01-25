@@ -5,21 +5,24 @@ $obj = new linkManagement();
 
 if ( isset( $_GET['token'] ) ) {
     $tokenData = $obj->Verify( $_GET['token'] );
-    if ( $tokenData == "Invalid Token" ) {
-        echo "Invalid Token";
-    } else {
-        $result = $obj->generateResult( $tokenData['id'] );
+    if ( $tokenData ) {
+        $wheelHemsResult = $obj->generateResult( $tokenData['customer_id'] );
         echo "<h2>Wheel Hems Info :</h2>";
-        if ( $result != null ) {
-            echo "<b>ID: </b>" . $result['id'] . "<br>";
-            echo "<b>Whell Hems Name: </b>" . $result['name'] . "<br>";
-            echo "<b>Wheel Hems Percentage: </b>" . $result['percent'];
+        if ( $wheelHemsResult != null ) {
+            echo "<b>ID: </b>" . $wheelHemsResult['id'] . "<br>";
+            echo "<b>Whell Hems Name: </b>" . $wheelHemsResult['name'] . "<br>";
+            echo "<b>Wheel Hems Percentage: </b>" . $wheelHemsResult['percent'];
+
         }
         echo "</br></br> <h2>Customer Info :</h2>";
-        echo "<b>Customer ID: </b>" . $tokenData['customer_id'] . "<br>";
-        echo "<b>Customer Name: </b>" . $tokenData['customer_name'];
+        $customerData = $obj->displayCustomerById( $tokenData['customer_id'] );
+        if ( $customerData ) {
+            print_r( $customerData );
+        } else {
+            echo "Not Found";
+        }
+    } else {
+        echo "Invalid Token";
     }
 
-} else {
-    echo "Please Privide a Token";
 }

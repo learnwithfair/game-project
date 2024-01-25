@@ -33,6 +33,13 @@
                         <div class="valid-feedback">Looks good!</div>
                         <div class="invalid-feedback">Please provide customer name</div>
                     </div>
+                    <div class="form-outline mb-4">
+                        <input type="email" class="form-control" id="customer-email" name="customer-email"
+                            placeholder="Enter Customer Email" required />
+                        <label for="customer-email" class="form-label">Customer Email</label>
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">Please provide customer email</div>
+                    </div>
                 </div>
                 <br>
                 <div>

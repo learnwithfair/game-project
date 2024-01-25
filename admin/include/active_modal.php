@@ -33,7 +33,7 @@
                 </div>
 
                 <div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    <button type="button" class="btn btn-secondary cancel" data-dismiss="modal"
                         style="margin:0px 10px">Cancel</button>
                     <button type="submit" class="btn btn-danger" name="activedata"
                         style="margin:0px 10px">Change</button>

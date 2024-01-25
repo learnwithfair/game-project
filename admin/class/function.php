@@ -52,6 +52,35 @@ class linkManagement {
 ###########################################################################################
 
 ###########################################################################################
+//                                      PUBLIC
+###########################################################################################
+// Display All Info
+    public function findAll( $tableName ) {
+        $display_query = "SELECT * FROM '$tableName' ORDER BY id ASC";
+        $queryData = mysqli_query( $this->conn, $display_query );
+        if ( isset( $queryData ) ) {
+            return $queryData;
+        } else {
+            return null;
+        }
+    }
+// Display Info By ID
+    public function findById( $tableName, $id ) {
+
+        $display_query = "SELECT * FROM '$tableName' WHERE id=$id";
+        $queryData = mysqli_query( $this->conn, $display_query );
+        if ( isset( $queryData ) ) {
+            return $queryData;
+        } else {
+            return null;
+        }
+    }
+
+###########################################################################################
+//                                      PUBLIC
+###########################################################################################
+
+###########################################################################################
 //                                      CUSTOMER
 ###########################################################################################
     // Display Customer Info
@@ -63,24 +92,25 @@ class linkManagement {
         }
     }
 
-    // // Display Customer Info by ID
-    // public function displayCustomerById( $id ) {
-    //     $display_customer_query = "SELECT * FROM customer_info WHERE id=$id";
-    //     $display_customer = mysqli_query( $this->conn, $display_customer_query );
-    //     $display_customer_data = mysqli_fetch_array( $display_customer );
-    //     if ( isset( $display_customer_data ) ) {
-    //         return $display_customer_data;
-    //     } else {
-    //         return null;
-    //     }
-    // }
+    // Display Customer Info by ID
+    public function displayCustomerById( $id ) {
+        $display_customer_query = "SELECT * FROM customer_info WHERE id=$id";
+        $display_customer = mysqli_query( $this->conn, $display_customer_query );
+        $display_customer_data = mysqli_fetch_array( $display_customer );
+        if ( isset( $display_customer_data ) ) {
+            return $display_customer_data;
+        } else {
+            return null;
+        }
+    }
 
     // Add Customer Info
     public function addCustomer( $data ) {
         $customer_id = $data['customer-id'];
         $customer_name = $data['customer-name'];
+        $customer_email = $data['customer-email'];
 
-        $add_customer_query = "INSERT INTO customer_info(customer_id,customer_name) VALUES('$customer_id','$customer_name')";
+        $add_customer_query = "INSERT INTO customer_info(customer_id,customer_name,customer_email) VALUES('$customer_id','$customer_name','$customer_email')";
         $return_mgs = mysqli_query( $this->conn, $add_customer_query );
         if ( $return_mgs ) {
             return "successful";
@@ -95,7 +125,8 @@ class linkManagement {
         $id = $data['update-id'];
         $customer_id = $data['u-customer-id'];
         $customer_name = $data['u-customer-name'];
-        $update_query = "UPDATE customer_info SET customer_id='$customer_id',customer_name='$customer_name' WHERE id=$id";
+        $customer_email = $data['u-customer-email'];
+        $update_query = "UPDATE customer_info SET customer_id='$customer_id',customer_name='$customer_name',customer_email='$customer_email' WHERE id=$id";
         $return_update_mgs = mysqli_query( $this->conn, $update_query );
         if ( $return_update_mgs ) {
             return "successful";
@@ -134,22 +165,8 @@ class linkManagement {
      * @return string token
      */
     static function Sign( $payload ) {
-        $key = "JSONWEBTOKEN";
-        // Header
-        $headers = array( 'algo' => 'HS256', 'type' => 'JWT' );
-
-        $headers_encoded = base64_encode( json_encode( $headers ) );
-
         $payload_encoded = base64_encode( json_encode( $payload ) );
-
-        // Signature
-        $signature = hash_hmac( 'SHA256', $headers_encoded . $payload_encoded, $key );
-        $signature_encoded = base64_encode( $signature );
-
-        // Token
-        $token = $headers_encoded . '.' . $payload_encoded . '.' . $signature_encoded;
-
-        return $token;
+        return $payload_encoded;
     }
 
     /**
@@ -162,27 +179,8 @@ class linkManagement {
      * @return array payload
      */
     static function Verify( $token ) {
-        $key = "JSONWEBTOKEN";
-        // Break token parts
-        $token_parts = explode( '.', $token );
-        if ( count( $token_parts ) > 1 ) {
-// Verigy Signature
-            $signature = base64_encode( hash_hmac( 'SHA256', $token_parts[0] . $token_parts[1], $key ) );
-            if ( $signature != $token_parts[2] ) {
-                return "Invalid Token";
-
-            }
-
-// Decode headers & payload
-            $headers = json_decode( base64_decode( $token_parts[0] ), true );
-            $payload = json_decode( base64_decode( $token_parts[1] ), true );
-
-// If token successfully verified
-            return $payload;
-        } else {
-            return "Invalid Token";
-        }
-
+        $payload = json_decode( base64_decode( "eyJjdXN0b21lcl9pZ" . $token ), true );
+        return $payload;
     }
 
 ###########################################################################################
@@ -254,6 +252,24 @@ class linkManagement {
             return null;
         }
     }
+    // Update  Wheel Hems Info
+    public function updateWheelHemsInfo( $data ) {
+        $id = $data['update-id'];
+        $name = $data['u-wheel-hems-name'];
+        $details = $data['u-wheel-hems-details'];
+        $percent = $data['u-wheel-hems-percent'];
+        $color_code = $data['u-wheel-hems-color-code'];
+        $multiplier = $data['u-wheel-hems-multiplier'];
+
+        $update_query = "UPDATE wheel_hems_info SET name='$name', details='$details', percent=$percent, color_code='$color_code', multiplier=$multiplier WHERE id=$id";
+        $return_update_mgs = mysqli_query( $this->conn, $update_query );
+
+        if ( isset( $return_update_mgs ) ) {
+            return "successful";
+        } else {
+            return null;
+        }
+    }
     // // CountWheelHemsrByName by ID
     // public function countWheelHemsrByName( $name ) {
 
@@ -308,10 +324,11 @@ class linkManagement {
 
     public function generateResult( $id ) {
 
-        $wheelHems_info = $this->displayWheelHems();
+        $wheelHems_info = json_decode( $this->displayActiveWheelItems() );
         $items = array();
-        while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
-            $items[$info['id']] = $info['percent'];
+
+        foreach ( $wheelHems_info as $info ) {
+            $items[$info->id] = $info->percent;
         }
         $weelHemsId = $this->getRandomItem( $items );
         $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsId );

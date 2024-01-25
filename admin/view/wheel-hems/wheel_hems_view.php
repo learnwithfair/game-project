@@ -1,18 +1,42 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css" rel="stylesheet" />
+<style>
+table.table-bordered.dataTable tbody th {
+    border-bottom-width: 3px;
+}
+
+table.table-bordered.dataTable tbody td {
+    border-bottom-width: 1px;
+}
+
+table.table-bordered.dataTable th,
+table.table-bordered.dataTable td {
+    border-left-width: 1px;
+}
+</style>
+
 <?php
+
+// Update Wheel Hems  by id
+if ( isset( $_POST['update-wheel-hems-btn'] ) ) {
+    $update_mgs = $obj->updateWheelHemsInfo( $_POST );
+}
 
 // Update Activated Status
 if ( isset( $_POST['activedata'] ) ) {
-    // $active_id = $_POST['active_id'];
     $active_mgs = $obj->updateActiveStatus( $_POST['active_id'] );
-
 }
 $wheelHems_info = $obj->displayWheelHems();
 ?>
+
+<!-- Update Wheel hems  -->
+<?php include "modal/update_wheel_hems.php";?>
+
 <!-- ACTIVE POP UP FORM (Bootstrap MODAL) -->
 <?php include "./include/active_modal.php";?>
 <br>
-<div class="card mb-4">
-    <div class="card-header">
+<div class="card mb-4" style="border:3px solid #dee2e6;">
+    <div class="card-header"
+        style="background-color: rgba(0, 0, 0, 0.03);border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
         <h4> <i class="far fa-sun mr-1"></i> Wheel Items</h4>
         <!-- <h6 style="color:red;"> -->
         <?php
@@ -24,11 +48,20 @@ if ( isset( $active_mgs ) ) {
     } else {
         include './include/error_modal.php';
     }
+}if ( isset( $update_mgs ) ) {
+    if ( $update_mgs == "successful" ) {
+        $s_mgs = "SUCCESSFULLY UPDATED";
+        include './include/success_modal.php';
+
+    } else {
+        include './include/error_modal.php';
+    }
 }
 ?>
         <!-- </h6> -->
 
-        <button type="button" class="btn btn-info addbtn float-right" style="margin-top: -20px;padding:8px 20px"> Add
+        <button type="button" class="btn btn-info addbtn float-right" style="margin-top: -35px;padding:8px 20px"> Add
+            Bulk
         </button>
         <div></div>
     </div>
@@ -82,10 +115,13 @@ if ( isset( $active_mgs ) ) {
                         <td>
 
 
-                            <a href="admin_update.php?status=admin_update&&id=<?php echo $info['id']; ?>"
-                                class="btn btn-warning" name="admin_update_btn"
-                                style="text-transform: none;padding-right:25px;padding-left:25px;">Edit</a>
+                            <button type="button" class="btn btn-warning update-wheel-hems"
+                                style="padding-right:40px;padding-left:40px;" <?php if ( $info['status'] == 0 ) {
+    echo "disabled";
+}
+    ?>>Edit</button>
                             <div></div><br>
+
                             <button type="button" class="btn btn-danger activebtn">
                                 <?php ( $info['status'] == 0 ) ? printf( "Reactive" ) : printf( "Deactive" );?>
                             </button>
@@ -110,3 +146,4 @@ $(document).ready(function() {
     });
 });
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"></script>
