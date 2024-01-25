@@ -18,6 +18,7 @@
 <!-- For Delete Item by ID  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+// For Delete Item
 $(document).ready(function() {
 
     $('.deletebtn').on('click', function() {
@@ -31,6 +32,25 @@ $(document).ready(function() {
         }).get();
 
         $('#delete_id').val(data[0]);
+
+    });
+});
+
+// Active Status set
+
+$(document).ready(function() {
+
+    $('.activebtn').on('click', function() {
+
+        $('#activemodal').modal('show');
+
+        $tr = $(this).closest('tr');
+
+        var data = $tr.children("td").map(function() {
+            return $(this).text();
+        }).get();
+
+        $('#active_id').val(data[0]);
 
     });
 });

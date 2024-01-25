@@ -201,9 +201,28 @@ class linkManagement {
             return $display_WheelHems;
         }
     }
-    // Display  Wheel Hems Info Info by Name
-    public function displayWheelHemsrByName( $name ) {
-        $display_wheel_hems_query = "SELECT * FROM wheel_hems_info WHERE name='$name'";
+    // Display Active Wheel Hems Info
+    public function displayActiveWheelItems() {
+        $json_array = array();
+
+        $display_WheelHems_query = "SELECT * FROM wheel_hems_info WHERE status=1 ORDER BY id ASC";
+        $display_WheelHems = mysqli_query( $this->conn, $display_WheelHems_query );
+
+        if ( isset( $display_WheelHems ) ) {
+            while ( $row = mysqli_fetch_assoc( $display_WheelHems ) ) {
+                $json_array[] = $row;
+            }
+        }
+        if ( isset( $json_array ) ) {
+            return json_encode( $json_array );
+        } else {
+            return null;
+        }
+
+    }
+    // Display  Wheel Hems Info by ID
+    public function displayWheelHemsrById( $id ) {
+        $display_wheel_hems_query = "SELECT * FROM wheel_hems_info WHERE id=$id";
         $display_wheel_hems = mysqli_query( $this->conn, $display_wheel_hems_query );
         $display_wheel_hems_data = mysqli_fetch_array( $display_wheel_hems );
         if ( isset( $display_wheel_hems_data ) ) {
@@ -212,6 +231,41 @@ class linkManagement {
             return null;
         }
     }
+    // Update  Wheel Hems active status by ID
+    public function updateActiveStatus( $id ) {
+        $u_status = 0;
+        $u_mgs = "DEACTIVATED";
+
+        $display_wheel_hems_query = "SELECT status FROM wheel_hems_info WHERE id=$id";
+        $display_wheel_hems = mysqli_query( $this->conn, $display_wheel_hems_query );
+        $display_wheel_hems_status = mysqli_fetch_array( $display_wheel_hems );
+
+        if ( $display_wheel_hems_status['status'] == 0 ) {
+            $u_status = 1;
+            $u_mgs = "ACTIVATED";
+        }
+
+        $update_query = "UPDATE wheel_hems_info SET status=$u_status WHERE id=$id";
+        $return_update_mgs = mysqli_query( $this->conn, $update_query );
+
+        if ( isset( $return_update_mgs ) ) {
+            return $u_mgs;
+        } else {
+            return null;
+        }
+    }
+    // // CountWheelHemsrByName by ID
+    // public function countWheelHemsrByName( $name ) {
+
+    //     $display_wheel_hems_query = "SELECT * FROM wheel_hems_info WHERE name='$name'";
+    //     $wheel_hems = mysqli_query( $this->conn, $display_wheel_hems_query );
+    //     $wheel_hems_count = mysqli_num_rows( $wheel_hems );
+    //     if ( isset( $wheel_hems_count ) ) {
+    //         return $wheel_hems_count;
+    //     } else {
+    //         return 1;
+    //     }
+    // }
 ###########################################################################################
 //                                      /WHEEL HEMS
 ###########################################################################################
@@ -239,8 +293,8 @@ class linkManagement {
         return null;
     }
 // Update customer Result by ID
-    public function updateCustomerResultbyId( $id, $wheelHemsName ) {
-        $update_query = "UPDATE customer_info SET wheel_hems_name='$wheelHemsName' WHERE id=$id";
+    public function updateCustomerResultbyId( $id, $wheelHemsId ) {
+        $update_query = "UPDATE customer_info SET wheel_hems_id=$wheelHemsId WHERE id=$id";
         $return_update_mgs = mysqli_query( $this->conn, $update_query );
         if ( $return_update_mgs ) {
             return true;
@@ -257,12 +311,12 @@ class linkManagement {
         $wheelHems_info = $this->displayWheelHems();
         $items = array();
         while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
-            $items[$info['name']] = $info['percent'];
+            $items[$info['id']] = $info['percent'];
         }
-        $weelHemsName = $this->getRandomItem( $items );
-        $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsName );
+        $weelHemsId = $this->getRandomItem( $items );
+        $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsId );
         if ( $updateResult ) {
-            return $this->displayWheelHemsrByName( $weelHemsName );
+            return $this->displayWheelHemsrById( $weelHemsId );
         } else {
             return null;
         }

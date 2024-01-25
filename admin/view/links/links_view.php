@@ -136,7 +136,10 @@ $token = $obj->Sign( array( 'id' => $info['id'], 'customer_id' => $info['custome
                         </td>
 
                         <td>
-                            <?php echo $info["wheel_hems_name"]; ?>
+                            <?php
+$whileId = $info["wheel_hems_id"];
+    ( $whileId == 0 ) ? printf( "No" ) : printf( $obj->displayWheelHemsrById( $info["wheel_hems_id"] )['name'] );
+    ?>
                         </td>
                         <td>
                             <button type="button" class="btn btn-info btn-sm copybtn m-1"> <i class="fa fa-copy"></i>

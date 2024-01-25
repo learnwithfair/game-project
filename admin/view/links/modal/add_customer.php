@@ -27,7 +27,7 @@
                         <div class="invalid-feedback">Please provide customer ID</div>
                     </div>
                     <div class="form-outline mb-4">
-                        <input type="text" class="form-control" id="validationCustom02" name="customer-name"
+                        <input type="text" class="form-control" id="validationCustom0" name="customer-name"
                             placeholder="Enter Customer Name" required />
                         <label for="validationCustom02" class="form-label">Customer Name</label>
                         <div class="valid-feedback">Looks good!</div>

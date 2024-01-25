@@ -1,29 +1,30 @@
 <?php
+
+// Update Activated Status
+if ( isset( $_POST['activedata'] ) ) {
+    // $active_id = $_POST['active_id'];
+    $active_mgs = $obj->updateActiveStatus( $_POST['active_id'] );
+
+}
 $wheelHems_info = $obj->displayWheelHems();
-
-// if ( isset( $_POST['deletedata'] ) ) {
-//     $dlt_id = $_POST['delete_id'];
-//     $dlt_mgs = $obj->subadmin_dlt( $dlt_id );
-// }
-
 ?>
-<!-- DELETE POP UP FORM (Bootstrap MODAL) -->
-<?php include "./include/delete_modal.php";?>
+<!-- ACTIVE POP UP FORM (Bootstrap MODAL) -->
+<?php include "./include/active_modal.php";?>
 <br>
 <div class="card mb-4">
     <div class="card-header">
         <h4> <i class="far fa-sun mr-1"></i> Wheel Hems</h4>
         <!-- <h6 style="color:red;"> -->
         <?php
-// if ( isset( $dlt_mgs ) ) {
-//     if ( $dlt_mgs == "successful" ) {
-//         $s_mgs = "SUCCESSFULLY DELETED";
-//         include './include/success_modal.php';
+if ( isset( $active_mgs ) ) {
+    if ( $active_mgs == "ACTIVATED" || $active_mgs == "DEACTIVATED" ) {
+        $s_mgs = "SUCCESSFULLY " . $active_mgs;
+        include './include/success_modal.php';
 
-//     } else {
-//         include './include/error_modal.php';
-//     }
-// }
+    } else {
+        include './include/error_modal.php';
+    }
+}
 ?>
         <!-- </h6> -->
 
@@ -42,6 +43,9 @@ $wheelHems_info = $obj->displayWheelHems();
                         <th scope="col">Image</th>
                         <th scope="col">Details</th>
                         <th scope="col">Percentage</th>
+                        <th scope="col">Color Code</th>
+                        <th scope="col">Multiplier</th>
+                        <th scope="col">Stutas</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -53,6 +57,9 @@ $wheelHems_info = $obj->displayWheelHems();
                         <th scope="col">Image</th>
                         <th scope="col">Details</th>
                         <th scope="col">Percentage</th>
+                        <th scope="col">Color Code</th>
+                        <th scope="col">Multiplier</th>
+                        <th scope="col">Stutas</th>
                         <th scope="col">Action</th>
                 </tfoot>
                 <tbody>
@@ -68,12 +75,21 @@ $wheelHems_info = $obj->displayWheelHems();
                                 alt="Not Found"></td>
                         <td class="text-justify"><?php echo $info['details']; ?></td>
                         <td><?php echo $info['percent']; ?>%</td>
+                        <td><?php echo $info['color_code']; ?></td>
+                        <td><?php echo $info['multiplier']; ?></td>
+                        <td><?php ( $info['status'] == 0 ) ? printf( "<b class='text-danger'>Deactive</b>" ) : printf( "<b class='text-success'>Active</b>" );?>
+                        </td>
                         <td>
+
+
                             <a href="admin_update.php?status=admin_update&&id=<?php echo $info['id']; ?>"
                                 class="btn btn-warning" name="admin_update_btn"
-                                style="text-transform: none;padding-right:20px;padding-left:20px;">Edit</a>
+                                style="text-transform: none;padding-right:25px;padding-left:25px;">Edit</a>
                             <div></div><br>
-                            <button type="button" class="btn btn-danger deletebtn"> Delete </button>
+                            <button type="button" class="btn btn-danger activebtn">
+                                <?php ( $info['status'] == 0 ) ? printf( "Reactive" ) : printf( "Deactive" );?>
+                            </button>
+
                         </td>
 
                     </tr>
