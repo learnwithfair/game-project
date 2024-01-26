@@ -1,24 +1,4 @@
-<style>
-.dashboard-icon img {
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
-    border: solid 2px #9b0000;
-}
-
-.dashboard-icon {
-
-    text-align: center;
-    padding: 15px;
-    /* width: 100%; */
-    /* justify-content: center; */
-
-}
-</style>
-
-
 <h1 class="mt-4">Dashboard</h1>
-
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Dashboard</li>
 </ol>

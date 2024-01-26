@@ -15,6 +15,10 @@
                     <div class="sb-nav-link-icon"><i class='fa fa-link'></i></div>
                     Links
                 </a>
+                <a class="nav-link" href="add_bulk">
+                    <div class="sb-nav-link-icon"><i class='fa fa-user'></i></div>
+                    Add Bulk
+                </a>
 
                 <!-- ////// -->
 

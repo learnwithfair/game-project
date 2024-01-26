@@ -1,26 +1,10 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css" rel="stylesheet" />
-<style>
-table.table-bordered.dataTable tbody th {
-    border-bottom-width: 3px;
-}
+<link rel="stylesheet" href="../../css/custom.css">
 
-table.table-bordered.dataTable tbody td {
-    border-bottom-width: 1px;
-}
-
-table.table-bordered.dataTable th,
-table.table-bordered.dataTable td {
-    border-left-width: 1px;
-}
-
-/* Datatable select box  */
-div.dataTables_wrapper div.dataTables_length select {
-    width: 55px;
-    display: inline-block;
-}
-</style>
 <?php
-
+###########################################################################
+// CALLING FUNCTION AFTER CLICK SUBMIT BUTTON
+###########################################################################
 // Delete Customer
 if ( isset( $_POST['deletedata'] ) ) {
     $dlt_id = $_POST['delete_id'];
@@ -40,25 +24,30 @@ if ( isset( $_POST['send-email-btn'] ) ) {
     echo $obj->sendEmail( $_POST );
 }
 
+###########################################################################
+// DISPLAY PAGE DATA
+###########################################################################
 // Display Customer
 $customer_info = $obj->display_customer_info();
+###########################################################################
+// IMPORT MODAL
+###########################################################################
 
-?>
-<!-- DELETE POP UP FORM (Bootstrap MODAL) -->
-<?php include "./include/delete_modal.php";?>
+// <!-- ACTIVE POP UP FORM (Bootstrap MODAL) -->
+include "./include/active_modal.php";
+// <!-- DELETE POP UP FORM (Bootstrap MODAL) -->
+include "./include/delete_modal.php";
 
-<!-- Add customer  -->
-<?php include "modal/add_customer.php";?>
+// <!-- Add customer  -->
+include "modal/add_customer.php";
 
-<!-- Update customer  -->
-<?php include "modal/update_customer.php";?>
-<br>
-<div class="card mb-4" style="border:3px solid #dee2e6;">
-    <div class="card-header"
-        style="background-color: rgba(0, 0, 0, 0.03);border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
-        <h4> <i class="fa fa-link mr-1"></i> Links</h4>
-        <!-- <h6 style="color:red;"> -->
-        <?php
+// <!-- Update customer  -->
+include "modal/update_customer.php";
+
+###########################################################################
+// MODAL FOR RESPONSE
+###########################################################################
+
 if ( isset( $dlt_mgs ) ) {
     if ( $dlt_mgs == "successful" ) {
         $s_mgs = "SUCCESSFULLY DELETED";
@@ -85,9 +74,15 @@ if ( isset( $add_mgs ) ) {
         include './include/error_modal.php';
     }
 }
+###########################################################################
+// HTML START
+###########################################################################
 ?>
-        <!-- </h6> -->
-
+<br>
+<div class="card mb-4" style="border:3px solid #dee2e6;">
+    <div class="card-header"
+        style="background-color: rgba(0, 0, 0, 0.03);border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
+        <h4> <i class="fa fa-link mr-1"></i> Links</h4>
         <button type="button" class="btn btn-info add-customer float-right" style="margin-top: -35px;padding:8px 20px">
             Add
         </button>
@@ -124,11 +119,13 @@ if ( isset( $add_mgs ) ) {
                         <th scope="col">Action</th>
                 </tfoot>
                 <tbody>
-                    <?php $count = 1;while ( $info = mysqli_fetch_assoc( $customer_info ) ) {
+                    <?php
+$count = 1;
+while ( $info = mysqli_fetch_assoc( $customer_info ) ) {
+
     $whileId = $info["wheel_hems_id"];
     $token = $obj->Sign( array( 'customer_id' => $info['id'], 'wheel_hems_id' => $whileId ) );
     ?>
-
                     <tr>
                         <td style="display:none;">
                             <?php echo $info['id']; ?>
@@ -146,32 +143,16 @@ if ( isset( $add_mgs ) ) {
                                     name="send-email-btn">Send
                                     Email</button>
                             </form>
-
-
-
                         </td>
                         <td style="display:none;"><?php echo $info['customer_email']; ?>
-                            <?php
-
-    ?>
                         <td style="display:none;">
                             <?php echo substr( $token, 17 ); ?>
                         </td>
                         <td class="text-left">
-                            <?php
-
-    echo ( str_split( $token, 15 )[2] . "..." );
-
-    ?>
-
-
+                            <?php echo ( str_split( $token, 15 )[2] . "..." ); ?>
                         </td>
-
                         <td>
-                            <?php
-
-    ( $whileId == 0 ) ? printf( "No" ) : printf( $obj->displayWheelHemsrById( $info["wheel_hems_id"] )['name'] );
-    ?>
+                            <?php ( $whileId == 0 ) ? printf( "No" ) : printf( $obj->displayWheelHemsrById( $info["wheel_hems_id"] )['name'] );?>
                         </td>
                         <td>
                             <button type="button" class="btn btn-info btn-sm copybtn m-1"> <i class="fa fa-copy"></i>
@@ -182,9 +163,7 @@ if ( isset( $add_mgs ) ) {
                             <button type="button" class="btn btn-danger btn-sm deletebtn m-1"> <i
                                     class="fa fa-trash"></i>
                             </button>
-
                         </td>
-
                     </tr>
                     <?php }?>
                 </tbody>
@@ -192,6 +171,9 @@ if ( isset( $add_mgs ) ) {
         </div>
     </div>
 </div>
+<!-- ########################################################################### -->
+<!-- // FOOTER JS FOR DATATABLE -->
+<!-- ########################################################################### -->
 <!-- For DataTable  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -204,7 +186,9 @@ $(document).ready(function() {
 });
 </script>
 <!-- For DataTable  -->
-
+<!-- ########################################################################### -->
+<!-- // FOR COPY TOKEN -->
+<!-- ########################################################################### -->
 <!-- For Copy  -->
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"></script>
