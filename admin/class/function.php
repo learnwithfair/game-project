@@ -64,16 +64,21 @@ class linkManagement {
             return null;
         }
     }
-// Display Info By ID
-    public function findById( $tableName, $id ) {
 
-        $display_query = "SELECT * FROM '$tableName' WHERE id=$id";
-        $queryData = mysqli_query( $this->conn, $display_query );
-        if ( isset( $queryData ) ) {
-            return $queryData;
-        } else {
-            return null;
-        }
+// Send Email
+    public function sendEmail( $data ) {
+        // For send Mail
+        // $to_email = "learnwithfair@gmail.com";
+        // $subject  = "Simple Email Test via PHP";
+        // $body     = "Hi, This is test email send by PHP Script";
+        // $headers  = "From: rahatul.ice.09.pust@gmail.com";
+
+        // if ( mail( $to_email, $subject, $body, $headers ) ) {
+        //     echo "Email successfully sent to $to_email...";
+        // } else {
+        //     echo "Email sending failed...";
+        // }
+        return $data['send-email-token'] . "<br/>Email: " . $data['send-email'];
     }
 
 ###########################################################################################
@@ -269,6 +274,34 @@ class linkManagement {
         } else {
             return null;
         }
+    }
+
+    // Update  Wheel Hems Image
+    public function updateWheelHemsImg( $data ) {
+        $id = $data['img-update-id'];
+        $user_img_name = $_FILES['user_img']['name'];
+        $user_img_tmp_name = $_FILES['user_img']['tmp_name'];
+
+        if ( $user_img_name ) {
+            // Get Image Name From Wheel Hems Table
+            $img_data = $this->displayWheelHemsrById( $id );
+            if ( isset( $img_data ) ) {
+                // Update Wheel Hems Image Name
+                $user_img_update_query = "UPDATE wheel_hems_info SET image='$user_img_name' WHERE id=$id";
+                $result = mysqli_query( $this->conn, $user_img_update_query );
+                if ( $result ) {
+                    move_uploaded_file( $user_img_tmp_name, "upload/wheel-img/" . $user_img_name );
+                    $img = $img_data['image'];
+                    if ( isset( $img ) ) {
+                        unlink( "upload/wheel-img/$img" );
+                    }
+                    return "successful";
+                } else {
+                    return "Unsuccessful";
+                }
+            }
+        }
+
     }
     // // CountWheelHemsrByName by ID
     // public function countWheelHemsrByName( $name ) {

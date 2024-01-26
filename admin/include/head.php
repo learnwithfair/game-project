@@ -9,10 +9,10 @@
     <meta name="author" content="" />
     <title>Fortune Wheel Admin</title>
     <link rel="shortcut icon" href="./assets/img/team-icon.png" type="image/x-icon">
-    <!-- <link rel="stylesheet" href="./CSS/pagi_style.css"> -->
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
         crossorigin="anonymous" />
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/custom.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous">
 
     </script>

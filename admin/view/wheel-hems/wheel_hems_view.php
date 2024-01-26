@@ -12,19 +12,30 @@ table.table-bordered.dataTable th,
 table.table-bordered.dataTable td {
     border-left-width: 1px;
 }
+
+/* Datatable select box  */
+div.dataTables_wrapper div.dataTables_length select {
+    width: 55px;
+    display: inline-block;
+}
 </style>
 
 <?php
-
-// Update Wheel Hems  by id
-if ( isset( $_POST['update-wheel-hems-btn'] ) ) {
-    $update_mgs = $obj->updateWheelHemsInfo( $_POST );
-}
 
 // Update Activated Status
 if ( isset( $_POST['activedata'] ) ) {
     $active_mgs = $obj->updateActiveStatus( $_POST['active_id'] );
 }
+
+// Update Wheel Hems  by id
+if ( isset( $_POST['update-wheel-hems-btn'] ) ) {
+    $update_mgs = $obj->updateWheelHemsInfo( $_POST );
+}
+// Update Wheel Hems Image by ID
+if ( isset( $_POST['u-wheel-img-btn'] ) ) {
+    $update_mgs = $obj->updateWheelHemsImg( $_POST );
+}
+
 $wheelHems_info = $obj->displayWheelHems();
 ?>
 
@@ -73,6 +84,7 @@ if ( isset( $active_mgs ) ) {
                         <th scope="col" style="display:none;"></th>
                         <th scope="col">S/N</th>
                         <th scope="col">Name</th>
+                        <th scope="col" style="display:none;"></th>
                         <th scope="col">Image</th>
                         <th scope="col">Details</th>
                         <th scope="col">Percentage</th>
@@ -87,6 +99,7 @@ if ( isset( $active_mgs ) ) {
                         <th scope="col" style="display:none;"></th>
                         <th scope="col">S/N</th>
                         <th scope="col">Name</th>
+                        <th scope="col" style="display:none;"></th>
                         <th scope="col">Image</th>
                         <th scope="col">Details</th>
                         <th scope="col">Percentage</th>
@@ -98,14 +111,41 @@ if ( isset( $active_mgs ) ) {
                 <tbody>
                     <?php $count = 1;while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {?>
 
-                    <tr>
+                    <tr style=<?php if ( $info['status'] == 0 ) {
+    echo "opacity:.5";
+}
+    ?>>
                         <td style="display:none;">
                             <?php echo $info['id']; ?>
                         </td>
                         <td><?php echo $count++; ?></td>
                         <td class="text-left"><?php echo $info['name']; ?></td>
-                        <td><img src="./assets/img/<?php echo $info['image']; ?>" height="70px" width="70px"
-                                alt="Not Found"></td>
+                        <td style="display:none;"><?php echo "./upload/wheel-img/" . $info['image']; ?></td>
+                        <td>
+
+                            <div class=<?php if ( $info['status'] != 0 ) {
+        echo "change-img";
+    }
+    ?> style="z-index:1;cursor: pointer;">
+                                <img src="./upload/wheel-img/<?php echo $info['image']; ?>" alt="Image Does not support"
+                                    class="img-fluid img-thumbnail" style="width: 80px;height:80px; z-index: 1">
+                                <div class="d-flex justify-content-end text-center">
+                                    <img src="./assets/img/camera.png" style="
+                                            width: 27px;
+                                            height: 27px;
+                                            z-index: 2;
+                                            background-color:#D8DADF;
+                                            padding:5px;
+                                            border-radius:50%;
+                                            margin-top:-2rem;
+                                            " />
+                                </div>
+                            </div>
+
+                            <?php include 'modal/wheel_img_edit.php';?>
+
+
+                        </td>
                         <td class="text-justify"><?php echo $info['details']; ?></td>
                         <td><?php echo $info['percent']; ?>%</td>
                         <td><?php echo $info['color_code']; ?></td>
@@ -117,8 +157,8 @@ if ( isset( $active_mgs ) ) {
 
                             <button type="button" class="btn btn-warning update-wheel-hems"
                                 style="padding-right:40px;padding-left:40px;" <?php if ( $info['status'] == 0 ) {
-    echo "disabled";
-}
+        echo "disabled";
+    }
     ?>>Edit</button>
                             <div></div><br>
 

@@ -12,6 +12,12 @@ table.table-bordered.dataTable th,
 table.table-bordered.dataTable td {
     border-left-width: 1px;
 }
+
+/* Datatable select box  */
+div.dataTables_wrapper div.dataTables_length select {
+    width: 55px;
+    display: inline-block;
+}
 </style>
 <?php
 
@@ -27,6 +33,11 @@ if ( isset( $_POST['add-customer-btn'] ) ) {
 // Update customer by id
 if ( isset( $_POST['update-customer-btn'] ) ) {
     $update_mgs = $obj->updateCustomer( $_POST );
+}
+
+// send Email
+if ( isset( $_POST['send-email-btn'] ) ) {
+    echo $obj->sendEmail( $_POST );
 }
 
 // Display Customer
@@ -115,6 +126,7 @@ if ( isset( $add_mgs ) ) {
                 <tbody>
                     <?php $count = 1;while ( $info = mysqli_fetch_assoc( $customer_info ) ) {
     $whileId = $info["wheel_hems_id"];
+    $token = $obj->Sign( array( 'customer_id' => $info['id'], 'wheel_hems_id' => $whileId ) );
     ?>
 
                     <tr>
@@ -124,15 +136,26 @@ if ( isset( $add_mgs ) ) {
                         <td><?php echo $count++; ?></td>
                         <td><?php echo $info['customer_id']; ?></td>
                         <td class="text-left"><?php echo $info['customer_name']; ?></td>
-                        <td><a href="mailto:" .<?php echo $info['customer_email']; ?>>Send Email</a>
+                        <td>
+                            <form action="" method="post">
+                                <input style="display:none;" id="send-email-token" name="send-email-token" type="text"
+                                    value="<?php echo substr( $token, 17 ); ?>" />
+                                <input style="display:none;" id="send-email" name="send-email" type="text"
+                                    value="<?php echo $info['customer_email']; ?>" />
+                                <button type="submit" class="btn btn-sm btn-primary text-capitalize"
+                                    name="send-email-btn">Send
+                                    Email</button>
+                            </form>
+
+
+
                         </td>
                         <td style="display:none;"><?php echo $info['customer_email']; ?>
                             <?php
-$token = $obj->Sign( array( 'customer_id' => $info['id'], 'wheel_hems_id' => $whileId ) );
+
     ?>
                         <td style="display:none;">
-                            <?php
-echo substr( $token, 17 ); ?>
+                            <?php echo substr( $token, 17 ); ?>
                         </td>
                         <td class="text-left">
                             <?php
