@@ -71,9 +71,10 @@ if ( isset( $active_mgs ) ) {
 ?>
         <!-- </h6> -->
 
-        <button type="button" class="btn btn-info addbtn float-right" style="margin-top: -35px;padding:8px 20px"> Add
-            Bulk
-        </button>
+        <a href="add_bulk" type="button" class="btn btn-info addbtn float-right"
+            style="margin-top: -35px;padding:8px 20px">
+            Add Bulk
+        </a>
         <div></div>
     </div>
     <div class="card-body">

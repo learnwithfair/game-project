@@ -32,6 +32,8 @@ if ( !isset( $view ) ) {
         include 'view/wheel-hems/wheel_hems_view.php';
     } elseif ( $view == "links" ) {
         include 'view/links/links_view.php';
+    } elseif ( $view == "add_bulk" ) {
+        include 'view/add-bulk/add_bulk_view.php';
     }
 
 }
