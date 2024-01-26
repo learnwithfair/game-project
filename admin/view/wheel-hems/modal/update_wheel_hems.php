@@ -96,10 +96,10 @@ $(document).ready(function() {
 
         $('#update-id').val(data[0]);
         $('#u-wheel-hems-name').val(data[2]);
-        $('#u-wheel-hems-details').val(data[4]);
-        $('#u-wheel-hems-percent').val(data[5].replace("%", ""));
-        $('#u-wheel-hems-color-code').val(data[6]);
-        $('#u-wheel-hems-multiplier').val(data[7]);
+        $('#u-wheel-hems-details').val(data[5]);
+        $('#u-wheel-hems-percent').val(data[6].replace("%", ""));
+        $('#u-wheel-hems-color-code').val(data[7]);
+        $('#u-wheel-hems-multiplier').val(data[8]);
     });
 });
 $(document).ready(function() {
