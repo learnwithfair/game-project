@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 27, 2024 at 02:13 PM
+-- Generation Time: Jan 27, 2024 at 05:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,6 +57,16 @@ CREATE TABLE `customer_info` (
   `wheel_hems_id` int(255) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `customer_info`
+--
+
+INSERT INTO `customer_info` (`id`, `customer_id`, `customer_name`, `customer_email`, `wheel_hems_id`) VALUES
+(96074, 'A-123', 'Mr. A', 'a@gmail.com', 0),
+(96075, 'A-124', 'Mr. B', 'b@gmail.com', 9),
+(96076, 'B-125', 'Mr. C', 'c@gmail.com', 0),
+(96077, 'B-126', 'Mr. D', 'd@gmail.com', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -105,7 +115,8 @@ ALTER TABLE `admin_info`
 -- Indexes for table `customer_info`
 --
 ALTER TABLE `customer_info`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `customer_email` (`customer_email`);
 
 --
 -- Indexes for table `wheel_hems_info`
@@ -127,7 +138,7 @@ ALTER TABLE `admin_info`
 -- AUTO_INCREMENT for table `customer_info`
 --
 ALTER TABLE `customer_info`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96039;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96083;
 
 --
 -- AUTO_INCREMENT for table `wheel_hems_info`

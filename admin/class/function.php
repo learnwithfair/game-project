@@ -131,10 +131,15 @@ class linkManagement {
         $customer_email = $data['customer-email'];
 
         $add_customer_query = "INSERT INTO customer_info(customer_id,customer_name,customer_email) VALUES('$customer_id','$customer_name','$customer_email')";
-        if ( mysqli_query( $this->conn, $add_customer_query ) ) {
-            return "successful";
-        } else {
-            return "unsuccessful";
+        try {
+            if ( mysqli_query( $this->conn, $add_customer_query ) ) {
+                return "successful";
+            } else {
+                return "unsuccessful";
+            }
+        } catch ( \Throwable $th ) {
+            //throw $th;
+            return "Duplicate value is found! Please checkout.";
         }
 
     }
@@ -146,11 +151,16 @@ class linkManagement {
         $customer_name = $data['u-customer-name'];
         $customer_email = $data['u-customer-email'];
         $update_query = "UPDATE customer_info SET customer_id='$customer_id',customer_name='$customer_name',customer_email='$customer_email' WHERE id=$id";
-        $return_update_mgs = mysqli_query( $this->conn, $update_query );
-        if ( $return_update_mgs ) {
-            return "successful";
-        } else {
-            return "unsuccessful";
+
+        try {
+            if ( mysqli_query( $this->conn, $update_query ) ) {
+                return "successful";
+            } else {
+                return "unsuccessful";
+            }
+        } catch ( \Throwable $th ) {
+            //throw $th;
+            return "Duplicate value is found! Please checkout.";
         }
 
     }
@@ -192,6 +202,7 @@ class linkManagement {
         $sCSVvar = FALSE;
         $count = 0;
         $data = array();
+        $result = "";
         $csvFileName = $fileName['csv-save-name'];
         $sCSVvar = fopen( "upload/csv-files/$csvFileName", "r" );
         if ( $sCSVvar !== FALSE ) {
@@ -205,9 +216,9 @@ class linkManagement {
                     $data['customer-id'] = $info[0];
                     $data['customer-name'] = $info[1];
                     $data['customer-email'] = $info[2];
-                    $result = $this->addCustomer( $data );
-                    if ( $result != "successful" ) {
-                        return "unsuccessful";
+                    $addResult = $this->addCustomer( $data );
+                    if ( $addResult != "successful" ) {
+                        $result = $addResult;
                     }
                     unset( $data );
                 }
@@ -215,6 +226,9 @@ class linkManagement {
         }
 
         $delete_mgs = $this->deleteCsvFile( $csvFileName );
+        if ( !empty( $result ) ) {
+            return $result;
+        }
         if ( $delete_mgs == "successful" ) {
             return "successful";
         } else {

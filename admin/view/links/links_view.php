@@ -68,6 +68,9 @@ if ( isset( $add_mgs ) ) {
         include './include/success_modal.php';
 
     } else {
+        if ( $add_mgs != "unsuccessful" ) {
+            echo "<h3 class='text-danger mt-2'>This customer is already exits!!</h3>";
+        }
         include './include/error_modal.php';
     }
 }if ( isset( $update_mgs ) ) {
@@ -76,6 +79,9 @@ if ( isset( $add_mgs ) ) {
         include './include/success_modal.php';
 
     } else {
+        if ( $update_mgs != "unsuccessful" ) {
+            echo "<h3 class='text-danger mt-2'>This customer is already exits!!</h3>";
+        }
         include './include/error_modal.php';
     }
 }

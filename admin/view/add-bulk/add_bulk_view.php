@@ -38,6 +38,9 @@ if ( isset( $upload_mgs ) ) {
         $s_mgs = "SUCCESSFULLY ADDED";
         include './include/success_modal.php';
     } else {
+        if ( $upload_mgs != "unsuccessful" ) {
+            echo "<h3 class='text-danger mt-2'>$upload_mgs</h3>";
+        }
         include './include/error_modal.php';
     }
 }
