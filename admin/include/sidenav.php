@@ -16,7 +16,7 @@
                     Links
                 </a>
                 <a class="nav-link" href="add_bulk">
-                    <div class="sb-nav-link-icon"><i class='fa fa-user'></i></div>
+                    <div class="sb-nav-link-icon"><i class='far fa-user-circle'></i></div>
                     Add Bulk
                 </a>
 

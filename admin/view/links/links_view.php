@@ -1,6 +1,11 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../../css/custom.css">
+<style>
+.table>:not(caption)>*>* {
+    padding: .4rem .5rem;
 
+}
+</style>
 <?php
 ###########################################################################
 // CALLING FUNCTION AFTER CLICK SUBMIT BUTTON
@@ -204,8 +209,7 @@ $(document).ready(function() {
             return $(this).text();
         }).get();
 
-        // http: //localhost/rabbi/FortuneWheelAdmin/game.php
-        navigator.clipboard.writeText('http://localhost/link-management/generate_result.php?token=' +
+        navigator.clipboard.writeText('http://localhost/rabbi/FortuneWheelAdmin/game.php?token=' +
             data[
                 6]);
 

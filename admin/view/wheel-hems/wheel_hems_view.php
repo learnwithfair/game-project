@@ -1,6 +1,11 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../../css/custom.css">
+<style>
+.table>:not(caption)>*>* {
+    padding: .4rem .5rem;
 
+}
+</style>
 <?php
 ###########################################################################
 // CALLING FUNCTION AFTER CLICK SUBMIT BUTTON
@@ -108,7 +113,7 @@ $count = 1;
 while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
     ?>
 
-                    <tr style=<?php if ( $info['status'] == 0 ) {echo "opacity:.5";}?>>
+                    <tr style=<?php if ( $info['status'] == 0 ) {echo "opacity:.7";}?>>
                         <td style="display:none;">
                             <?php echo $info['id']; ?>
                         </td>
@@ -116,21 +121,24 @@ while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
                         <td class="text-left"><?php echo $info['name']; ?></td>
                         <td style="display:none;"><?php echo "./upload/wheel-img/" . $info['image']; ?></td>
                         <td>
-                            <div class=<?php if ( $info['status'] != 0 ) {echo "change-img";}?>
+                            <div class=<?php ( $info['status'] != 0 ) ? printf( "change-img" ) : printf( "" );?>
                                 style="z-index:1;cursor: pointer;">
-                                <img src="./upload/wheel-img/<?php echo $info['image']; ?>" alt="Image Does not support"
-                                    class="img-fluid img-thumbnail" style="width: 50px;height:60px; z-index: 1">
-                                <div class="d-flex justify-content-end text-center">
-                                    <img src="./assets/img/camera.png" style="
-                                            width: 27px;
-                                            height: 27px;
+                                <div style="position:relative;width:70px;height:80px;">
+                                    <img src="./upload/wheel-img/<?php echo $info['image']; ?>"
+                                        alt="Image Does not support" class="img-fluid img-thumbnail"
+                                        style="width: 100%;height:100%; z-index: 1" />
+                                    <div class="position-absolute" style="right: 0px; top:54px">
+                                        <img src="./assets/img/camera.png" style="
+                                            width: 25px;
+                                            height: 25px;
                                             z-index: 2;
                                             background-color:#D8DADF;
                                             padding:5px;
                                             border-radius:50%;
-                                            margin-top:-2rem;
                                             " />
+                                    </div>
                                 </div>
+
                             </div>
                         </td>
                         <td class="text-justify"><?php echo $info['details']; ?></td>

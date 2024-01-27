@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2024 at 09:18 PM
+-- Generation Time: Jan 27, 2024 at 12:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,9 +62,10 @@ CREATE TABLE `customer_info` (
 --
 
 INSERT INTO `customer_info` (`id`, `customer_id`, `customer_name`, `customer_email`, `wheel_hems_id`) VALUES
-(2, 'B-3445', 'Rahatul rabbi', 'rahatul@gmail.com', 2),
-(5, 'B-3448', 'Anisul Islam', 'anisul@gmail.com', 9),
-(96012, 'A-34902', 'Sahanur Rahman', 'suhan@gmail.com', 0);
+(96034, 'A-123', 'Mr. A', 'a@gmail.com', 0),
+(96035, 'A-124', 'Mr. B', 'b@gmail.com', 0),
+(96036, 'B-125', 'Mr. C', 'c@gmail.com', 0),
+(96037, 'B-126', 'Mr. D', 'd@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -88,14 +89,14 @@ CREATE TABLE `wheel_hems_info` (
 --
 
 INSERT INTO `wheel_hems_info` (`id`, `name`, `details`, `image`, `percent`, `color_code`, `multiplier`, `status`) VALUES
-(1, 'McLaren GR', 'Description Here..', 'default-image.png', 0, '#FF22', 1, 0),
-(2, 'Mercedes-Benz Gwagon', 'Description Here..', 'default-image.png', 2, '#FF22', 1, 0),
-(3, 'Audi RS 5 Coupe', 'Description  Here..', 'default-image.png', 3, '#FFFFFF', 1, 1),
+(1, 'McLaren GR', 'Description Here..', 'default-image.png', 0, '#FF22', 1, 1),
+(2, 'Mercedes-Benz Gwagon', 'Description Here..', 'face16.jpg', 2, '#FF22', 1, 1),
+(3, 'Audi RS 5 Coupe', 'Description  Here..', 'face21.jpg', 3, '#FFFFFF', 1, 1),
 (4, 'Hublot Big Bang Integral Blue watch', 'Description  Here..', 'default-image.png', 5, '#FF22', 1, 0),
 (5, '10 Ounces of Gold', 'Description  Here..', 'default-image.png', 5, '#FF22', 1, 0),
 (6, 'Apple iPhone 15 Pro Max', 'Description  Here..', 'default-image.png', 7, '#FF22', 2, 0),
 (7, 'Cash Bonus 500', 'Description  Here..', 'default-image.png', 8, '#FF22', 1, 1),
-(8, 'Cash Bonus 100', 'Description  Here..', 'default-image.png', 15, '#FF22', 1, 0),
+(8, 'Cash Bonus 100', 'Description  Here..', 'default-image.png', 15, '#FF22', 1, 1),
 (9, 'Cash Bonus 50', 'Description  Here..', 'default-image.png', 25, '#FF22', 1, 1),
 (10, 'Cash Bonus 30', 'Description  Here..', 'default-image.png', 30, '#FF22', 1, 0);
 
@@ -107,13 +108,15 @@ INSERT INTO `wheel_hems_info` (`id`, `name`, `details`, `image`, `percent`, `col
 -- Indexes for table `admin_info`
 --
 ALTER TABLE `admin_info`
-  ADD PRIMARY KEY (`admin_id`);
+  ADD PRIMARY KEY (`admin_id`),
+  ADD UNIQUE KEY `admin_email` (`admin_email`);
 
 --
 -- Indexes for table `customer_info`
 --
 ALTER TABLE `customer_info`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `customer_email` (`customer_email`);
 
 --
 -- Indexes for table `wheel_hems_info`
@@ -135,7 +138,7 @@ ALTER TABLE `admin_info`
 -- AUTO_INCREMENT for table `customer_info`
 --
 ALTER TABLE `customer_info`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96013;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96039;
 
 --
 -- AUTO_INCREMENT for table `wheel_hems_info`

@@ -1,3 +1,15 @@
+<!--
+#### Tables of Contents ######
++AUTH
++PUBLIC
++CUSTOMER
++BULK
++TOKEN
++WHEEL HEMS
++GENERATE RESULT
+-->
+
+
 <?php
 class linkManagement {
     private $conn;
@@ -29,9 +41,11 @@ class linkManagement {
                 $admin_check = 1;
                 $_SESSION['admin_id'] = $match_data['admin_id'];
                 $_SESSION['admin_name'] = $match_data['admin_name'];
+                $_SESSION['admin_email'] = $match_data['admin_email'];
                 $_SESSION['admin_img'] = $match_data['admin_img'];
                 header( "location:template" );
                 break;
+
             }
         }
         if ( $admin_check == 0 ) {
@@ -44,6 +58,7 @@ class linkManagement {
     public function logout_info() {
         unset( $_SESSION['admin_id'] );
         unset( $_SESSION['admin_name'] );
+        unset( $_SESSION['admin_email'] );
         unset( $_SESSION['admin_img'] );
         header( "location: index" );
     }
@@ -68,10 +83,10 @@ class linkManagement {
 // Send Email
     public function sendEmail( $data ) {
         // For send Mail
-        // $to_email = "learnwithfair@gmail.com";
+        // $to_email = "user@gmail.com";
         // $subject  = "Simple Email Test via PHP";
         // $body     = "Hi, This is test email send by PHP Script";
-        // $headers  = "From: rahatul.ice.09.pust@gmail.com";
+        // $headers  = "From: admin@gmail.com";
 
         // if ( mail( $to_email, $subject, $body, $headers ) ) {
         //     echo "Email successfully sent to $to_email...";
@@ -116,8 +131,7 @@ class linkManagement {
         $customer_email = $data['customer-email'];
 
         $add_customer_query = "INSERT INTO customer_info(customer_id,customer_name,customer_email) VALUES('$customer_id','$customer_name','$customer_email')";
-        $return_mgs = mysqli_query( $this->conn, $add_customer_query );
-        if ( $return_mgs ) {
+        if ( mysqli_query( $this->conn, $add_customer_query ) ) {
             return "successful";
         } else {
             return "unsuccessful";
@@ -154,6 +168,75 @@ class linkManagement {
 
 ###########################################################################################
 //                                      /CUSTOMER
+###########################################################################################
+###########################################################################################
+//                                      BULK
+###########################################################################################
+
+// Upload CSV file
+    public function uploadCsvFile( $data ) {
+        $csv_file_name = $_FILES['csv-file']['name'];
+        $csv_tmp_name = $_FILES['csv-file']['tmp_name'];
+        if ( $csv_file_name ) {
+            $result = move_uploaded_file( $csv_tmp_name, "upload/csv-files/" . $csv_file_name );
+        }
+        if ( isset( $result ) ) {
+            return $csv_file_name;
+        } else {
+            return null;
+        }
+
+    }
+
+    public function saveCsvFilesData( $fileName ) {
+        $sCSVvar = FALSE;
+        $count = 0;
+        $data = array();
+        $csvFileName = $fileName['csv-save-name'];
+        $sCSVvar = fopen( "upload/csv-files/$csvFileName", "r" );
+        if ( $sCSVvar !== FALSE ) {
+            while ( !feof( $sCSVvar ) ) {
+                $info = fgetcsv( $sCSVvar, 1000, "," );
+                if ( $count == 0 ) {
+                    $count++;
+                    continue;
+                }
+                if ( !empty( $info ) ) {
+                    $data['customer-id'] = $info[0];
+                    $data['customer-name'] = $info[1];
+                    $data['customer-email'] = $info[2];
+                    $result = $this->addCustomer( $data );
+                    if ( $result != "successful" ) {
+                        return "unsuccessful";
+                    }
+                    unset( $data );
+                }
+            }
+        }
+
+        $delete_mgs = $this->deleteCsvFile( $csvFileName );
+        if ( $delete_mgs == "successful" ) {
+            return "successful";
+        } else {
+            return "unsuccessful";
+        }
+
+    }
+
+    // Delete CSV File by Name
+    public function deleteCsvFile( $name ) {
+        if ( isset( $name ) ) {
+            $result = unlink( "upload/csv-files/$name" );
+            if ( isset( $result ) ) {
+                return "successful";
+            }
+        } else {
+            return "unsuccessful";
+        }
+
+    }
+###########################################################################################
+//                                      /BULK
 ###########################################################################################
 
 ###########################################################################################
