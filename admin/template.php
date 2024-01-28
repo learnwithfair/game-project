@@ -12,10 +12,13 @@ if ( isset( $_GET['status'] ) ) {
     }
 }
 
-include_once "include/head.php";?>
+include_once "include/head.php";
+include_once "include/preloader.php";
+
+?>
 
 
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed" onload="preloaderFunction()">
     <?php include_once "include/topnav.php";?>
     <div id="layoutSidenav">
         <?php include_once "include/sidenav.php";?>
