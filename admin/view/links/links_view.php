@@ -201,7 +201,7 @@ $(document).ready(function() {
 <!-- // FOR COPY TOKEN -->
 <!-- ########################################################################### -->
 <!-- For Copy  -->
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"></script>
 
 <script>

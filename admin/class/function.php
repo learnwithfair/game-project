@@ -240,10 +240,15 @@ class linkManagement {
     // Delete CSV File by Name
     public function deleteCsvFile( $name ) {
         if ( isset( $name ) ) {
-            $result = unlink( "upload/csv-files/$name" );
-            if ( isset( $result ) ) {
-                return "successful";
+            try {
+                $result = unlink( "upload/csv-files/$name" );
+                if ( isset( $result ) ) {
+                    return "successful";
+                }
+            } catch ( \Throwable $th ) {
+                return "unsuccessful";
             }
+
         } else {
             return "unsuccessful";
         }
@@ -390,7 +395,11 @@ class linkManagement {
                     move_uploaded_file( $user_img_tmp_name, "upload/wheel-img/" . $user_img_name );
                     $img = $img_data['image'];
                     if ( isset( $img ) ) {
-                        unlink( "upload/wheel-img/$img" );
+                        try {
+                            unlink( "upload/wheel-img/$img" );
+                        } catch ( \Throwable $th ) {
+                             return "Unsuccessful";
+                        }
                     }
                     return "successful";
                 } else {
