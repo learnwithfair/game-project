@@ -1,5 +1,3 @@
-customer id,customer name,customer email,
-A-123,Mr. A,a@gmail.com,
-A-124,Mr. B,b@gmail.com,
-B-125,Mr. C,c@gmail.com,
-B-126,Mr. D,d@gmail.com,
+customer id,customer name,customer email
+record-test-123,Mr. A Test,atest@gmail.com
+record-test-124,Mr. B Test,btest@gmail.com

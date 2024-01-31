@@ -94,6 +94,10 @@ if ( isset( $add_mgs ) ) {
     <div class="card-header"
         style="background-color: rgba(0, 0, 0, 0.03);border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
         <h4> <i class="fa fa-link mr-1"></i> Links</h4>
+        <!-- <a href="add_bulk" type="button" class="btn btn-info "
+            style="margin-top: -35px;padding:8px 20px">
+            Add Bulk
+        </a> -->
         <button type="button" class="btn btn-info add-customer float-right" style="margin-top: -35px;padding:8px 20px">
             Add
         </button>
@@ -108,7 +112,7 @@ if ( isset( $add_mgs ) ) {
                         <th scope="col">S/N</th>
                         <th scope="col">Customer ID</th>
                         <th scope="col">Customer Name</th>
-                        <th scope="col">Customer Email</th>
+                        <th scope="col">Created On</th>
                         <th scope="col" style="display:none;"></th>
                         <th scope="col" style="display:none;"></th>
                         <th scope="col">Link</th>
@@ -122,7 +126,7 @@ if ( isset( $add_mgs ) ) {
                         <th scope="col">S/N</th>
                         <th scope="col">Customer ID</th>
                         <th scope="col">Customer Name</th>
-                        <th scope="col">Customer Email</th>
+                        <th scope="col">Created On</th>
                         <th scope="col" style="display:none;"></th>
                         <th scope="col" style="display:none;"></th>
                         <th scope="col">Link</th>
@@ -145,15 +149,7 @@ while ( $info = mysqli_fetch_assoc( $customer_info ) ) {
                         <td><?php echo $info['customer_id']; ?></td>
                         <td class="text-left"><?php echo $info['customer_name']; ?></td>
                         <td>
-                            <form action="" method="post">
-                                <input style="display:none;" id="send-email-token" name="send-email-token" type="text"
-                                    value="<?php echo substr( $token, 17 ); ?>" />
-                                <input style="display:none;" id="send-email" name="send-email" type="text"
-                                    value="<?php echo $info['customer_email']; ?>" />
-                                <button type="submit" class="btn btn-sm btn-primary text-capitalize"
-                                    name="send-email-btn">Send
-                                    Email</button>
-                            </form>
+                        <?php echo $info['created']; ?> 
                         </td>
                         <td style="display:none;"><?php echo $info['customer_email']; ?>
                         <td style="display:none;">
@@ -215,7 +211,7 @@ $(document).ready(function() {
             return $(this).text();
         }).get();
 
-        navigator.clipboard.writeText('http://localhost/rabbi/FortuneWheelAdmin/game.php?token=' +
+        navigator.clipboard.writeText('http://localhost/rabbi/FortuneWheelAdmin/?token=' +
             data[
                 6]);
 
