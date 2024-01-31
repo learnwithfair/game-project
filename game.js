@@ -18,7 +18,10 @@ var winCircle;
 var results = [];
 var wheelArray;
 var wheelContainer;
-var imgPath = "http://localhost/rabbi/FortuneWheelAdmin/admin/upload/wheel-img/"
+var imgPath = "https://demo.saz-zad.com/FortuneWheel/admin/upload/wheel-img/"
+// var imgPath = "http://localhost/rabbi/FortuneWheelAdmin/admin/upload/wheel-img/"
+var resultUrl = "https://demo.saz-zad.com/FortuneWheel/generate_result.php"
+// var resultUrl = "http://localhost/rabbi/FortuneWheelAdmin/generate_result.php"
 
 window.wheel = wheel;
 window.wheelTop = wheelTop;
@@ -57,10 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // PIXI.Assets.add('button_over', 'assets/button_over.png');
 
     var assetKeys = ['spin_wheel_base', 'spin', 'top', 'circle', 'spin_wheel_base1', 'spin_wheel_base2', 'winSound', 'tick1', 'tick2', 'tick3', 'tick4'];
-    for (let i = 1; i < 9; i++) {
-        PIXI.Assets.add('result' + i, '../FortuneWheelAdmin/assets/result' + i + '.png');
-        assetKeys.push('result' + i);
-    }
+    // for (let i = 1; i < 9; i++) {
+    //     PIXI.Assets.add('result' + i, '../FortuneWheelAdmin/assets/result' + i + '.png');
+    //     assetKeys.push('result' + i);
+    // }
 
     const texturesPromise = PIXI.Assets.load(assetKeys);
     texturesPromise.then((asset) => {
@@ -83,27 +86,25 @@ document.addEventListener('DOMContentLoaded', () => {
         app.stage.addChild(bg);
 
 
-        wheel = PIXI.Sprite.from(assets.spin);
-        wheel.anchor.set(0.5);
-        wheel.position.set(app.screen.width * 0.5, 335)
-        app.stage.addChild(wheel);
+        // wheel = PIXI.Sprite.from(assets.spin);
+        // wheel.anchor.set(0.5);
+        // wheel.position.set(app.screen.width * 0.5, 335)
+        // app.stage.addChild(wheel);
 
 
-        const numberOfSlices = 8;
-        const sliceColors = [0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x0000FF, 0x4B0082, 0x9400D3, 0xFFC0CB];
+        // const numberOfSlices = 8;
+        // const sliceColors = [0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x0000FF, 0x4B0082, 0x9400D3, 0xFFC0CB];
 
         wheelContainer = new PIXI.Container();
         wheelContainer.position.set(app.renderer.width / 2, 335);
         app.stage.addChild(wheelContainer);
 
-        // Function to draw a slice with image and text
         function drawSlice(index, totalSlices, radius, color, text_color, imageSrc, labelText) {
             const startAngle = (index / totalSlices) * Math.PI * 2;
             const endAngle = ((index + 1) / totalSlices) * Math.PI * 2;
 
             const sliceContainer = new PIXI.Container();
 
-            // Draw the slice
             const slice = new PIXI.Graphics();
             slice.beginFill(color);
             slice.moveTo(0, 0);
@@ -111,14 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
             slice.lineTo(0, 0);
             slice.endFill();
 
-            // Add the slice graphics to the container
             sliceContainer.addChild(slice);
 
             var degreeStart = startAngle * (180 / Math.PI);
             var degreeEnd = endAngle * (180 / Math.PI);
-
-            // console.log("degreeStart="+degreeStart);
-            // console.log("degreeEnd="+degreeEnd);
 
             // Add the image to the slice
             const image = PIXI.Sprite.from(imageSrc);
@@ -150,10 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sliceContainer.addChild(text);
 
-            // Rotate the slice container to the correct angle
-            // sliceContainer.rotation = startAngle;
-
-            // Add the slice container to the wheel container
             wheelContainer.addChild(sliceContainer);
         }
 
@@ -167,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         wheelCircle.anchor.set(0.5);
         wheelCircle.x = app.screen.width * 0.5;
         wheelCircle.y = app.screen.height * .5;
-        // app.stage.addChild(wheelCircle);
+        app.stage.addChild(wheelCircle);
         wheelCircle = wheelCircle;
 
         winCircle = new PIXI.Graphics();
@@ -319,7 +312,7 @@ function getResult() {
 
     // console.log('token', token);
 
-    const apiUrl = 'http://localhost/rabbi/FortuneWheelAdmin/generate_result.php?token=' + token;
+    const apiUrl = resultUrl +'?token=' + token;
 
     // Make a request to the API
     axios.get(apiUrl)
