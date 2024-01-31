@@ -49,6 +49,9 @@ include "modal/add_customer.php";
 // <!-- Update customer  -->
 include "modal/update_customer.php";
 
+// <!-- Copy Token  -->
+include "modal/copy_modal.php";
+
 ###########################################################################
 // MODAL FOR RESPONSE
 ###########################################################################
@@ -197,48 +200,5 @@ $(document).ready(function() {
 });
 </script>
 <!-- For DataTable  -->
-<!-- ########################################################################### -->
-<!-- // FOR COPY TOKEN -->
-<!-- ########################################################################### -->
-<!-- For Copy  -->
-<script src="https//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"></script>
-
-<script>
-$(document).ready(function() {
-
-    $('.copybtn').on('click', function() {
-
-        // For copy clipboard
-        $tr = $(this).closest('tr');
-        var data = $tr.children("td").map(function() {
-            return $(this).text();
-        }).get();
-
-        navigator.clipboard.writeText('http://localhost/rabbi/FortuneWheelAdmin/game.php?token=' +
-            data[
-                6]);
-
-        // For copied Toast
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'center',
-            width: 150,
-            height: 60,
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: false,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-
-        Toast.fire({
-            title: 'Copied',
-            background: '#D4EDDA',
-        })
-    });
-});
-</script>
-<!-- /For Copy  -->
