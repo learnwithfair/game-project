@@ -6,6 +6,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+var gameUrl = "http://localhost/rabbi/FortuneWheelAdmin/";
+
 $(document).ready(function() {
 
     $('.copybtn').on('click', function() {
@@ -16,7 +18,7 @@ $(document).ready(function() {
             return $(this).text();
         }).get();
         // http: //localhost/rabbi/FortuneWheelAdmin/game.php?token=
-        navigator.clipboard.writeText('http://localhost/link-management/game-project/game.php?token=' +
+        navigator.clipboard.writeText(gameUrl+ '?token=' +
             data[
                 6].trim());
 

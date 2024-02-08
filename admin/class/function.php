@@ -1,16 +1,5 @@
-<!--
-#### Tables of Contents ######
-+AUTH
-+PUBLIC
-+CUSTOMER
-+BULK
-+TOKEN
-+WHEEL HEMS
-+GENERATE RESULT
--->
-
-
 <?php
+
 class linkManagement {
     private $conn;
 
@@ -18,7 +7,8 @@ class linkManagement {
         $bdhost = "localhost";
         $dbuser = "root";
         $dbpassword = "";
-        $dbname = "rabbi_fortunewheeladmin";
+        $dbname = "rabbi_fortunewheelad2";
+        // $dbname = "rabbi_fortunewheeladmin";
         $this->conn = mysqli_connect( $bdhost, $dbuser, $dbpassword, $dbname );
 
         if ( !( $this->conn ) ) {
@@ -363,7 +353,8 @@ class linkManagement {
     public function updateWheelHemsInfo( $data ) {
         $id = $data['update-id'];
         $name = $data['u-wheel-hems-name'];
-        $details = $data['u-wheel-hems-details'];
+        // $details = $data['u-wheel-hems-details'];
+        $details = mysqli_real_escape_string($this->conn, $data['u-wheel-hems-details']);
         $percent = $data['u-wheel-hems-percent'];
         $color_code = $data['u-wheel-hems-color-code'];
         $multiplier = $data['u-wheel-hems-multiplier'];
@@ -431,15 +422,18 @@ class linkManagement {
     function getRandomItem( array $items ) {
         // Calculate total probability
         $totalProbability = array_sum( $items );
+        //TEST echo '<br><b>getRandomItem- totalProbability </b>'.$totalProbability;
 
         // Generate a random number between 0 and the total probability
         $randomNumber = mt_rand( 0, $totalProbability );
+        //TEST echo '<br><b>getRandomItem- randomNumber </b>'.$randomNumber;
 
         // Iterate through the items and find the selected item
         $currentProbability = 0;
         foreach ( $items as $item => $probability ) {
             $currentProbability += $probability;
             if ( $randomNumber <= $currentProbability ) {
+                //TEST echo '<br><b>getRandomItem- </b>'.$item;
                 return $item;
             }
         }
@@ -465,10 +459,15 @@ class linkManagement {
 
         $wheelHems_info = json_decode( $this->displayActiveWheelItems() );
         $items = array();
+        //TEST echo '<br><b>generateResult- wheelHems_info</b>';
+        //TEST print_r( $wheelHems_info );
 
         foreach ( $wheelHems_info as $info ) {
             $items[$info->id] = $info->percent;
         }
+        //TEST echo '<br><b>generateResult- items</b>';
+        //TEST print_r( $items );
+
         $weelHemsId = $this->getRandomItem( $items );
         $updateResult = $this->updateCustomerResultbyId( $id, $weelHemsId );
         if ( $updateResult ) {

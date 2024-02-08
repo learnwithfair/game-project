@@ -15,7 +15,7 @@
         <div class="modal-content modal_icon">
             <form action="" method="POST" enctype="multipart/form-data">
                 <div class="modal-title" id="exampleModalLongTitle">
-                    <h3>Update Wheel Hems</h3>
+                    <h3>Update Wheel Items</h3>
                     <hr>
                     <br>
                     <div></div>
@@ -36,7 +36,7 @@
                                     name="u-wheel-hems-percent" placeholder="Enter wheel-hems Percentage" required />
                                 <label for="u-wheel-hems-percent" class="form-label">Percentage</label>
                                 <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Please provide wheel-hems percent</div>
+                                <div class="invalid-feedback">Please provide wheel-items percent</div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                                     name="u-wheel-hems-color-code" placeholder="Enter wheel-hems Color Code" required />
                                 <label for="u-wheel-hems-color-code" class="form-label">Color Code</label>
                                 <div class="valid-feedback">Looks good!</div>
-                                <div class="invalid-feedback">Please provide wheel-hems color code</div>
+                                <div class="invalid-feedback">Please provide wheel-items color code</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -65,9 +65,9 @@
                     <div class="form-outline mb-4">
                         <textarea rows="3" class="form-control" id="u-wheel-hems-details" name="u-wheel-hems-details"
                             placeholder="Write wheel-hems details" required></textarea>
-                        <label for="u-wheel-hems-details" class="form-label">Wheel-hems Details</label>
+                        <label for="u-wheel-hems-details" class="form-label">Wheel Item Details</label>
                         <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Please provide wheel-hems details</div>
+                        <div class="invalid-feedback">Please provide wheel-items details</div>
                     </div>
                 </div>
 
@@ -96,7 +96,7 @@ $(document).ready(function() {
 
         $('#update-id').val(data[0]);
         $('#u-wheel-hems-name').val(data[2]);
-        $('#u-wheel-hems-details').val(data[5]);
+        $('#u-wheel-hems-details').val(data[9]);
         $('#u-wheel-hems-percent').val(data[6].replace("%", ""));
         $('#u-wheel-hems-color-code').val(data[7]);
         $('#u-wheel-hems-multiplier').val(data[8]);

@@ -1,5 +1,5 @@
  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-     <a class="navbar-brand" target="_blank" href=".././">Website Name</a>
+     <a class="navbar-brand" target="_blank" href=".././">Fortune Wheel</a>
      <span class="" id="sidebarToggle" href="#" style="background-color:none;cursor:pointer;"><i
              class="fas fa-bars"></i></span>
      <!-- <span class="btn btn-link btn-sm  order-1 order-lg-0" id="sidebarToggle" href="#" style="background-color:#343A40;"><i

@@ -69,7 +69,7 @@ if ( isset( $active_mgs ) ) {
     <div class="card-header"
         style="background-color: rgba(0, 0, 0, 0.03);border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
         <h4> <i class="far fa-sun mr-1"></i> Wheel Items</h4>
-        <a href="add_bulk" type="button" class="btn btn-info addbtn float-right"
+        <a href="" type="button" class="btn btn-info addbtn float-right"
             style="margin-top: -35px;padding:8px 20px">
             Add Bulk
         </a>
@@ -123,7 +123,7 @@ while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
                         <td>
                             <div class=<?php ( $info['status'] != 0 ) ? printf( "change-img" ) : printf( "" );?>
                                 style="z-index:1;cursor: pointer;">
-                                <div style="position:relative;width:70px;height:80px;">
+                                <div style="position:relative;width:170px;height:120px;">
                                     <img src="./upload/wheel-img/<?php echo $info['image']; ?>"
                                         alt="Image Does not support" class="img-fluid img-thumbnail"
                                         style="width: 100%;height:100%; z-index: 1" />
@@ -141,10 +141,11 @@ while ( $info = mysqli_fetch_assoc( $wheelHems_info ) ) {
 
                             </div>
                         </td>
-                        <td class="text-justify"><?php echo $info['details']; ?></td>
+                        <td class="text-justify"><?php echo substr($info['details'], 0, 50) ."..."; ?></td>
                         <td><?php echo $info['percent']; ?>%</td>
                         <td><?php echo $info['color_code']; ?></td>
                         <td><?php echo $info['multiplier']; ?></td>
+                        <td class="hidden-data" style="display: none;"><?php echo $info['details']; ?></td>
                         <td>
                             <?php ( $info['status'] == 0 ) ? printf( "<b class='text-danger'>Deactive</b>" ) : printf( "<b class='text-success'>Active</b>" );?>
                         </td>

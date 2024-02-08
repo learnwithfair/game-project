@@ -15,6 +15,14 @@ var winSound;
 var tickSound = [];
 var winCircle;
 
+var results = [];
+var wheelArray;
+var wheelContainer;
+var imgPath = "https://demo.saz-zad.com/FortuneWheel/admin/upload/wheel-img/"
+// var imgPath = "http://localhost/rabbi/FortuneWheelAdmin/admin/upload/wheel-img/"
+var resultUrl = "https://demo.saz-zad.com/FortuneWheel/generate_result.php"
+// var resultUrl = "http://localhost/rabbi/FortuneWheelAdmin/generate_result.php"
+
 window.wheel = wheel;
 window.wheelTop = wheelTop;
 window.wheelCircle = wheelCircle;
@@ -34,27 +42,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     gameContainer.appendChild(app.view)
 
+    createSlice();
 
 
 
-    PIXI.Assets.add('spin_wheel_base', '../FortuneWheel/assets/spin_wheel_base.png');
-    PIXI.Assets.add('spin_wheel_base1', '../FortuneWheel/assets/spin_wheel_base1.png');
-    PIXI.Assets.add('spin_wheel_base2', '../FortuneWheel/assets/spin_wheel_base2.png');
-    PIXI.Assets.add('spin', '../FortuneWheel/assets/spin.png');
-    PIXI.Assets.add('top', '../FortuneWheel/assets/top.png');
-    PIXI.Assets.add('circle', '../FortuneWheel/assets/circle.png');
-    PIXI.Assets.add('winSound', '../FortuneWheel/assets/dice_win.mp3');
-    PIXI.Assets.add('tick1', '../FortuneWheel/assets/tick1.mp3');
-    PIXI.Assets.add('tick2', '../FortuneWheel/assets/tick2.mp3');
-    PIXI.Assets.add('tick3', '../FortuneWheel/assets/tick3.mp3');
-    PIXI.Assets.add('tick4', '../FortuneWheel/assets/tick4.mp3');
+    PIXI.Assets.add('spin_wheel_base', '../FortuneWheelAdmin/assets/spin_wheel_base.png');
+    PIXI.Assets.add('spin_wheel_base1', '../FortuneWheelAdmin/assets/spin_wheel_base1.png');
+    PIXI.Assets.add('spin_wheel_base2', '../FortuneWheelAdmin/assets/spin_wheel_base2.png');
+    PIXI.Assets.add('spin', '../FortuneWheelAdmin/assets/spin.png');
+    PIXI.Assets.add('top', '../FortuneWheelAdmin/assets/top.png');
+    PIXI.Assets.add('circle', '../FortuneWheelAdmin/assets/circle.png');
+    PIXI.Assets.add('winSound', '../FortuneWheelAdmin/assets/dice_win.mp3');
+    PIXI.Assets.add('tick1', '../FortuneWheelAdmin/assets/tick1.mp3');
+    PIXI.Assets.add('tick2', '../FortuneWheelAdmin/assets/tick2.mp3');
+    PIXI.Assets.add('tick3', '../FortuneWheelAdmin/assets/tick3.mp3');
+    PIXI.Assets.add('tick4', '../FortuneWheelAdmin/assets/tick4.mp3');
     // PIXI.Assets.add('button_over', 'assets/button_over.png');
 
     var assetKeys = ['spin_wheel_base', 'spin', 'top', 'circle', 'spin_wheel_base1', 'spin_wheel_base2', 'winSound', 'tick1', 'tick2', 'tick3', 'tick4'];
-    for (let i = 1; i < 9; i++) {
-        PIXI.Assets.add('result' + i, '../FortuneWheel/assets/result' + i + '.png');
-        assetKeys.push('result' + i);
-    }
+    // for (let i = 1; i < 9; i++) {
+    //     PIXI.Assets.add('result' + i, '../FortuneWheelAdmin/assets/result' + i + '.png');
+    //     assetKeys.push('result' + i);
+    // }
 
     const texturesPromise = PIXI.Assets.load(assetKeys);
     texturesPromise.then((asset) => {
@@ -77,12 +86,74 @@ document.addEventListener('DOMContentLoaded', () => {
         app.stage.addChild(bg);
 
 
-        wheel = PIXI.Sprite.from(assets.spin);
-        wheel.anchor.set(0.5);
-        wheel.position.set(app.screen.width * 0.5, 335)
-        app.stage.addChild(wheel);
+        // wheel = PIXI.Sprite.from(assets.spin);
+        // wheel.anchor.set(0.5);
+        // wheel.position.set(app.screen.width * 0.5, 335)
+        // app.stage.addChild(wheel);
 
 
+        // const numberOfSlices = 8;
+        // const sliceColors = [0xFF0000, 0xFFA500, 0xFFFF00, 0x008000, 0x0000FF, 0x4B0082, 0x9400D3, 0xFFC0CB];
+
+        wheelContainer = new PIXI.Container();
+        wheelContainer.position.set(app.renderer.width / 2, 335);
+        app.stage.addChild(wheelContainer);
+
+        function drawSlice(index, totalSlices, radius, color, text_color, imageSrc, labelText) {
+            const startAngle = (index / totalSlices) * Math.PI * 2;
+            const endAngle = ((index + 1) / totalSlices) * Math.PI * 2;
+
+            const sliceContainer = new PIXI.Container();
+
+            const slice = new PIXI.Graphics();
+            slice.beginFill(color);
+            slice.moveTo(0, 0);
+            slice.arc(0, 0, radius, startAngle, endAngle);
+            slice.lineTo(0, 0);
+            slice.endFill();
+
+            sliceContainer.addChild(slice);
+
+            var degreeStart = startAngle * (180 / Math.PI);
+            var degreeEnd = endAngle * (180 / Math.PI);
+
+            // Add the image to the slice
+            const image = PIXI.Sprite.from(imageSrc);
+            image.scale.set(.22);
+            image.anchor.set(0, 0.5);
+            image.pivot.x = -480;
+            // image.width = radius * 0.8;
+            image.position.set(0, 0);
+            image.angle = (degreeStart + degreeEnd) / 2 - 5;
+            // image.height = radius * 0.8;
+            sliceContainer.addChild(image);
+
+            // Add the text to the slice
+            const textStyle = new PIXI.TextStyle({
+                fontFamily: 'Kanit',
+                fontSize: 13,
+                // fontWeight: 'bold',
+                fill: text_color,
+                align: 'center',
+                wordWrap: true,
+                wordWrapWidth: 150,
+            });
+            const text = new PIXI.Text(labelText, textStyle);
+            text.anchor.set(0, 0.5);
+            text.pivot.x = -60;
+            text.position.set(0, 0);
+            text.angle = image.angle + 15;
+            // text.rotation = (startAngle + endAngle) / 2;
+
+            sliceContainer.addChild(text);
+
+            wheelContainer.addChild(sliceContainer);
+        }
+
+        // Draw each slice with image and text
+        for (let i = 0; i < wheelArray.length; i++) {
+            drawSlice(i, wheelArray.length, 210, wheelArray[i].color, wheelArray[i].text_color, imgPath + wheelArray[i].image, wheelArray[i].name);
+        }
 
 
         var wheelCircle = PIXI.Sprite.from(assets.circle);
@@ -104,6 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
         app.stage.addChild(top);
         wheelTop = top;
 
+
+        ifSpinned();
         return;
 
     });
@@ -112,22 +185,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 function spin() {
     onButtonDown();
-    var spinBtn = document.getElementById('spin-btn');
-    spinBtn.style.display = 'none';
 }
 function showWin(n) {
-    var result = sliceToResult(n);
-    // console.log("result",result);
+    // var result = sliceToResult(n);
+    var result = wheelArray[n];
+    console.log("result", result);
 
-    
+
     winCircle.beginFill(result.color); // Red color
     winCircle.drawCircle(0, 0, 10); // Radius initially set to 10
     winCircle.endFill();
     winCircle.x = app.screen.width / 2;
     winCircle.y = 335;
     winCircle.alpha = 1
-   
-    
+
+
     gsap.to(winCircle, {
         duration: 0.5,
         width: 420,
@@ -135,7 +207,7 @@ function showWin(n) {
         ease: 'power2.out', // Easing function
     });
 
-    var top = PIXI.Sprite.from(assets['result' + result.id]);
+    var top = PIXI.Sprite.from(imgPath + result.image);
     top.anchor.set(0.5);
     top.position.set(app.screen.width * 0.5, app.screen.height * 0.5)
     app.stage.addChild(top);
@@ -168,35 +240,119 @@ function showWin(n) {
     resultText.y = 480;
     app.stage.addChild(resultText);
     window.resultText = resultText;
+
+    
+    var spinSubtitle = document.getElementById('spin-sub');
+    spinSubtitle.innerHTML = jsWinData.details;
+
+    var spinMsg = document.getElementById('spin-msg');
+    spinMsg.innerHTML = 'You Won ' + results[n].name;
+
+    var spinBtn = document.getElementById('spin-btn');
+    spinBtn.style.display = 'none';
+}
+
+function createSlice() {
+    var originalArray = JSON.parse(jsWheelArray);
+    originalArray.forEach(item => {
+        item.percent = parseInt(item.percent);
+    });
+    var sortedArray = originalArray.sort(function (a, b) {
+        return b.percent - a.percent;
+    });
+    var len = originalArray.length;
+    for (var i = 0; i < len; i++) {
+        if (i % 2 === 0) {
+            results.push(sortedArray.pop());
+        } else {
+            results.push(sortedArray.shift());
+        }
+    }
+    results = results.map(function (item) {
+        return { name: item.name, image: item.image, color: parseInt(item.color_code), text_color: parseInt(item.text_color), id: parseInt(item.id) };
+    });
+    wheelArray = results;
+    console.log("wheelArray", wheelArray);
 }
 
 function sliceToResult(n) {
-    var results = [
-        { name: 'McLaren GT', color: 0xF67A3E, id: 1 },
-        { name: 'Mercedes-Benz GWagon', color: 0x30B676, id: 2 },
-        { name: 'Cash Bonus 100', color: 0xC9E266, id: 8 },
-        { name: 'Blue watch', color: 0xFF6060, id: 4 },
-        { name: 'Audi RS 5 Coupé', color: 0xFFFFFF, id: 3 },
-        { name: 'iPhone 15 Pro Max', color: 0x2EB574, id: 6 },
-        { name: 'Cash Bonus 50', color: 0xF67A3E, id: 8 },
-        { name: '10 ounces of gold', color: 0xC9E266, id: 5 },
-        { name: 'Cash Bonus 500', color: 0xFF6060, id: 7 },
-        { name: 'Cash Bonus 30', color: 0xFFFFFF, id: 8 },
-    ]
+    // var results = [
+    //     { name: 'McLaren GT', color: 0xF67A3E, id: 1 },
+    //     { name: 'Mercedes-Benz GWagon', color: 0x30B676, id: 2 },
+    //     { name: 'Cash Bonus 100', color: 0xC9E266, id: 8 },
+    //     { name: 'Hublot Blue watch', color: 0xFF6060, id: 4 },
+    //     { name: 'Audi RS 5 Coupé', color: 0xFFFFFF, id: 3 },
+    //     { name: 'iPhone 15 Pro Max', color: 0x2EB574, id: 6 },
+    //     { name: 'Cash Bonus 50', color: 0xF67A3E, id: 8 },
+    //     { name: '10 ounces of gold', color: 0xC9E266, id: 5 },
+    //     { name: 'Cash Bonus 500', color: 0xFF6060, id: 7 },
+    //     { name: 'Cash Bonus 30', color: 0xFFFFFF, id: 8 },
+    // ]
     return results[n];
 }
 
+function ifSpinned() {
+    if (jsWinData != null) {
+        var id = parseInt(jsWinData.id);
+        const matchedObject = results.find(obj => obj.id === id);
+        if (matchedObject) {
+            const position = results.indexOf(matchedObject);
+            console.log(`Object with id ${id} is at position ${position}`);
+            showWin(position);
+        } else {
+            console.log('Object not found in results');
+        }
+    }
+}
+
+function getResult() {
+    const currentUrl = window.location.search;
+    const urlParams = new URLSearchParams(currentUrl);
+    const token = urlParams.get('token');
+
+    // console.log('token', token);
+
+    const apiUrl = resultUrl +'?token=' + token;
+
+    // Make a request to the API
+    axios.get(apiUrl)
+        .then(response => {
+            const apiResponse = jsWinData = response.data;
+
+            console.log("apiResponse: ", apiResponse);
+            apiResponse.id = parseInt(apiResponse.id);
+
+            const matchedObject = results.find(obj => obj.id === apiResponse.id);
+
+            if (matchedObject) {
+                // Retrieve the position (index) of the matched object in results
+                const position = results.indexOf(matchedObject);
+
+                // Log the result
+                console.log(`Object with id ${apiResponse.id} is at position ${position}`);
+                runSpin(position)
+                // return position;
+            } else {
+                console.log('Object not found in results');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data from the API', error);
+        });
+
+}
+
 function onButtonDown() {
-    // console.log("Changign ");
-    // if (isdown) {
-    //     bg.texture = assets.spin_wheel_base2;
-    // } else {
-    //     bg.texture = assets.spin_wheel_base1;
-    //     console.log("reset");
-    // }
-    var selectedSlice = Math.floor(Math.random() * 10)
+    getResult();
+}
+
+function runSpin(selectedSlice) {
+
+    if (!selectedSlice) {
+        return;
+    }
     // var selectedSlice = 9
-    var totalSlice = selectedSlice + 20
+    var totalSlice = selectedSlice + 3 + wheelArray.length * 2;
     var time = 5;
     console.log("selectedSlice=", selectedSlice);
 
@@ -204,10 +360,10 @@ function onButtonDown() {
     var nextSliceProgress = fractionProgress * 1.5;
     // console.log("nextSliceProgress=", nextSliceProgress);
 
-    var destAngle = wheel.angle + (totalSlice * 36);
+    var destAngle = (totalSlice * 36);
     var prevAnim = null;
-    var anim = gsap.to(wheel, {
-        angle: destAngle,
+    var anim = gsap.to(wheelContainer, {
+        angle: -destAngle,
         duration: time,
         ease: "power2.out",
         onComplete: () => {
