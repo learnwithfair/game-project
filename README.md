@@ -2,6 +2,10 @@
 - Email: admin@gamil.com
 - Password: 123456
 
+## Download Source Code
+
+Click -> https://mega.nz/folder/YDMmWDoK#LEhcrY-FFpvUaymbwb3KEA
+
 ## API
 - For Get Info url-> game.php?toke=
 - For Get Info url-> generate_result.php?toke=
